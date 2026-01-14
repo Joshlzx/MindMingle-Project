@@ -23,8 +23,17 @@ public class QuizManager : MonoBehaviour
 
     private void Start()
     {
+
+        // break reference to Inspector list
+        QnA = new List<QuestionsAndAnswers>(QnA);
+
+        //Random seed every retry
+        Random.InitState(System.DateTime.Now.Millisecond); // Ensure the questions are random
+
         TotalQuestions = QnA.Count;
         GoPanel.SetActive(false);
+        ShuffleQuestions();
+        currentQuestion = 0;  // set currentQuestion to 0 
         generateQuestion();
     }
 
@@ -35,16 +44,14 @@ public class QuizManager : MonoBehaviour
     
     IEnumerator WaitForNext()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(3);
         generateQuestion();
     }
     
     public void correct()
     {
-        //when you are right 
-        score += 1;
-        QnA.RemoveAt(currentQuestion);
-        //generateQuestion();
+        score++;
+        currentQuestion++;
         StartCoroutine(WaitForNext());
 
 
@@ -52,11 +59,21 @@ public class QuizManager : MonoBehaviour
 
     public void wrong()
     {
-        // When you answer wrong 
-        QnA.RemoveAt(currentQuestion);
-        //generateQuestion();
+        ShowCorrectAnswer();
+        currentQuestion++;
         StartCoroutine(WaitForNext());
 
+    }
+
+    void ShuffleQuestions()
+    {
+        for (int i = 0; i < QnA.Count; i++)
+        {
+            int randomIndex = Random.Range(i, QnA.Count);
+            QuestionsAndAnswers temp = QnA[i];
+            QnA[i] = QnA[randomIndex];
+            QnA[randomIndex] = temp;
+        }
     }
 
     public void GameOver()
@@ -85,12 +102,23 @@ public class QuizManager : MonoBehaviour
         }
     }
 
-    void generateQuestion() 
+    void ShowCorrectAnswer()
     {
-        if (QnA.Count > 0) 
+        for (int i = 0; i < options.Length; i++)
         {
-            currentQuestion = Random.Range(0, QnA.Count);
+            AnswerScript ans = options[i].GetComponent<AnswerScript>();
 
+            if (ans.isCorrect)
+            {
+                options[i].GetComponent<Image>().color = Color.green;
+            }
+        }
+    }
+
+    void generateQuestion()
+    {
+        if (currentQuestion < QnA.Count)
+        {
             QuestionTxt.text = QnA[currentQuestion].Question;
             SetAnswers();
         }
@@ -101,7 +129,7 @@ public class QuizManager : MonoBehaviour
         }
     }
 
-  
+
 
 
 }

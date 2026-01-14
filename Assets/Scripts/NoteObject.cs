@@ -24,14 +24,14 @@ public class NoteObject : MonoBehaviour
                 gameObject.SetActive(false);
                 //GameManager1.instance.NoteHit();
 
-                if (Mathf.Abs(transform.position.y) > 0.25) // This is the threshold that determines whether the note hit is normal,good or perfect ( y-axis)
+                if (Mathf.Abs(transform.position.y) > 1) // This is the threshold that determines whether the note hit is normal,good or perfect ( y-axis) 
                 {
                     Debug.Log("Hit");
                     GameManager1.instance.NormalHit();
                     Instantiate(hitEffect, transform.position, hitEffect.transform.rotation);
 
                 }
-                else if (Mathf.Abs(transform.position.y) > 0.05f)
+                else if (Mathf.Abs(transform.position.y) > 0.53) 
                 {
                     Debug.Log("Good");
                     GameManager1.instance.GoodHit();
