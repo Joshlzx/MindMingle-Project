@@ -143,7 +143,7 @@ public class GameManager1 : MonoBehaviour
 
     public void NoteMissed()
     {
-        Debug.Log("Missed Note");
+        Debug.Log("Missed Note");   
         currentMultiplier = 1;
         multiplierTracker = 0;
         multiText.text = "Multiplier: x" + currentMultiplier;

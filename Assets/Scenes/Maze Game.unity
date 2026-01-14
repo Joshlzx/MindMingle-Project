@@ -413,7 +413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   nodePrefab: {fileID: 6700885382052137241, guid: c118f5859f58c7c44a8ea8bb7e4932cb, type: 3}
-  mazeSize: {x: 15, y: 15}
+  mazeSize: {x: 10, y: 10}
   nodeSize: 0
   playerPrefab: {fileID: 2996425990912683760, guid: db28d0215486ecb488a0afdb80ffbec2, type: 3}
   playerSpawnHeight: 0
