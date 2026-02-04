@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
 
     [Header("Game Setup")]
-    [SerializeField] private int numRows = 3;
+    [SerializeField] private int numRows = 1;
     [SerializeField] private int numCols = 4;
     private int numTiles;
     private Tile[] tile;
@@ -67,6 +67,23 @@ public class GameManager : MonoBehaviour
         // Start in the menu game mode, with flashing lights and no sound.
         gameMode = GameMode.Menu;
         StartCoroutine(MenuTileAnimation());
+    }
+
+    void Update()
+    {
+        if (gameMode != GameMode.Playing) return;
+
+        if (Input.GetKeyDown(KeyCode.Z))
+            PlayLightAndTone(0);
+
+        if (Input.GetKeyDown(KeyCode.X))
+            PlayLightAndTone(1);
+
+        if (Input.GetKeyDown(KeyCode.C))
+            PlayLightAndTone(2);
+
+        if (Input.GetKeyDown(KeyCode.V))
+            PlayLightAndTone(3);
     }
 
     private IEnumerator MenuTileAnimation()

@@ -37,6 +37,49 @@ public class QuizManager : MonoBehaviour
         generateQuestion();
     }
 
+    bool canSelect = true;
+
+    void Update()
+    {
+        if (!Quizpanel.activeSelf || !canSelect) return;
+
+        if (Input.GetKeyDown(KeyCode.Z))
+            SelectAnswer(0);
+        if (Input.GetKeyDown(KeyCode.X))
+            SelectAnswer(1);
+        if (Input.GetKeyDown(KeyCode.C))
+            SelectAnswer(2);
+        if (Input.GetKeyDown(KeyCode.V))
+            SelectAnswer(3);
+    }
+
+    void SelectAnswer(int optionIndex)
+    {
+        if (!canSelect) return;
+        canSelect = false;
+
+        AnswerScript ans = options[optionIndex].GetComponent<AnswerScript>();
+
+        if (ans.isCorrect)
+        {
+            correct();
+            options[optionIndex].GetComponent<Image>().color = Color.green;
+        }
+        else
+        {
+            options[optionIndex].GetComponent<Image>().color = Color.red;
+            wrong();
+        }
+
+        StartCoroutine(ReEnableInput());
+    }
+
+    IEnumerator ReEnableInput()
+    {
+        yield return new WaitForSeconds(3f);
+        canSelect = true;
+    }
+
     public void retry()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

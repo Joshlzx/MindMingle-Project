@@ -1,37 +1,42 @@
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class NoteObject : MonoBehaviour
 {
     public bool canBePressed;
-
     public KeyCode keyToPress;
-
     public GameObject hitEffect, goodEffect, perfectEffect, missEffect;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    // Start is called once before the first execution of Update
     void Start()
     {
-        
+     
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(keyToPress))
+        // Convert KeyCode to string to match ESP32InputManager keys
+        string keyString = keyToPress.ToString(); // KeyCode.Z -> "Z"
+
+        // Check if the key is pressed either from keyboard or ESP32
+        if (ESP32InputManager.Instance.GetKeyDown(keyString))
         {
+            Debug.Log(gameObject.name + " triggered by " + keyString);
             if (canBePressed)
             {
                 gameObject.SetActive(false);
-                //GameManager1.instance.NoteHit();
 
-                if (Mathf.Abs(transform.position.y) > 1) // This is the threshold that determines whether the note hit is normal,good or perfect ( y-axis) 
+                // Determine hit type based on y-position
+                float yPos = Mathf.Abs(transform.position.y);
+
+                if (yPos > 1f)
                 {
                     Debug.Log("Hit");
                     GameManager1.instance.NormalHit();
                     Instantiate(hitEffect, transform.position, hitEffect.transform.rotation);
-
                 }
-                else if (Mathf.Abs(transform.position.y) > 0.53) 
+                else if (yPos > 0.53f)
                 {
                     Debug.Log("Good");
                     GameManager1.instance.GoodHit();
@@ -42,14 +47,11 @@ public class NoteObject : MonoBehaviour
                     Debug.Log("Perfect");
                     GameManager1.instance.PerfectHit();
                     Instantiate(perfectEffect, transform.position, perfectEffect.transform.rotation);
-                } 
-                
+                }
             }
-             
-          
-            
         }
     }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Activator")
@@ -57,9 +59,10 @@ public class NoteObject : MonoBehaviour
             canBePressed = true;
         }
     }
+
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.tag == "Activator"  && gameObject.activeSelf)
+        if (other.tag == "Activator" && gameObject.activeSelf)
         {
             canBePressed = false;
             GameManager1.instance.NoteMissed();

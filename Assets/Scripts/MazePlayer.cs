@@ -12,10 +12,18 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        float moveX = Input.GetAxisRaw("Horizontal");
-        float moveZ = Input.GetAxisRaw("Vertical");
+        Vector3 move = Vector3.zero;
 
-        Vector3 move = new Vector3(moveX, 0, moveZ).normalized;
+        if (Input.GetKey(KeyCode.Z))  // left
+            move += Vector3.left;
+        if (Input.GetKey(KeyCode.X))  // up
+            move += Vector3.forward;
+        if (Input.GetKey(KeyCode.C))  // down
+            move += Vector3.back;
+        if (Input.GetKey(KeyCode.V))  // right
+            move += Vector3.right;
+
+        move = move.normalized;  // ensures diagonal movement isn't faster
         Vector3 newPosition = rb.position + move * moveSpeed * Time.fixedDeltaTime;
 
         rb.MovePosition(newPosition);
