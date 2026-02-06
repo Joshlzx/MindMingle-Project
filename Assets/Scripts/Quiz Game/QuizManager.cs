@@ -20,20 +20,18 @@ public class QuizManager : MonoBehaviour
     int TotalQuestions = 0;
     public int score;
 
-
     private void Start()
     {
-
         // break reference to Inspector list
         QnA = new List<QuestionsAndAnswers>(QnA);
 
         //Random seed every retry
-        Random.InitState(System.DateTime.Now.Millisecond); // Ensure the questions are random
+        Random.InitState(System.DateTime.Now.Millisecond);
 
         TotalQuestions = QnA.Count;
         GoPanel.SetActive(false);
         ShuffleQuestions();
-        currentQuestion = 0;  // set currentQuestion to 0 
+        currentQuestion = 0;
         generateQuestion();
     }
 
@@ -84,20 +82,18 @@ public class QuizManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-    
+
     IEnumerator WaitForNext()
     {
         yield return new WaitForSeconds(3);
         generateQuestion();
     }
-    
+
     public void correct()
     {
         score++;
         currentQuestion++;
         StartCoroutine(WaitForNext());
-
-
     }
 
     public void wrong()
@@ -105,7 +101,6 @@ public class QuizManager : MonoBehaviour
         ShowCorrectAnswer();
         currentQuestion++;
         StartCoroutine(WaitForNext());
-
     }
 
     void ShuffleQuestions()
@@ -124,7 +119,18 @@ public class QuizManager : MonoBehaviour
         Quizpanel.SetActive(false);
         GoPanel.SetActive(true);
         ScoreTxt.text = score + "/" + TotalQuestions;
+
+        //SAVE QUIZ SCORE TO PLAYER PROFILE
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.SaveQuizStats(score, TotalQuestions);
+        }
+        else
+        {
+            Debug.LogWarning("ScoreManager not found. Score not saved.");
+        }
     }
+
     void SetAnswers()
     {
         for (int i = 0; i < options.Length; i++)
@@ -133,15 +139,10 @@ public class QuizManager : MonoBehaviour
             options[i].GetComponent<AnswerScript>().isCorrect = false;
             options[i].transform.GetChild(0).GetComponent<Image>().sprite = QnA[currentQuestion].Answers[i];
 
-            
-
-
-            if (QnA[currentQuestion].CorrectAnswer == i+1)
+            if (QnA[currentQuestion].CorrectAnswer == i + 1)
             {
-                
                 options[i].GetComponent<AnswerScript>().isCorrect = true;
             }
-            
         }
     }
 
@@ -171,8 +172,4 @@ public class QuizManager : MonoBehaviour
             GameOver();
         }
     }
-
-
-
-
 }

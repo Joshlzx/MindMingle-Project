@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -174,6 +175,11 @@ public class GameManager : MonoBehaviour
         // Play the game light sequence.
         StartCoroutine(PlaySequence());
 
+    }
+
+    public void BackToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 
     private IEnumerator PlaySequence()
