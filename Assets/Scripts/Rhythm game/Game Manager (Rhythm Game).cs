@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager1 : MonoBehaviour
@@ -7,6 +8,7 @@ public class GameManager1 : MonoBehaviour
     public bool startPlaying;
     public BeatScroller theBS;
     public static GameManager1 instance;
+
     public int currentScore;
     public int scorePerNote = 100;
     public int scorePerGoodNote = 125;
@@ -26,82 +28,98 @@ public class GameManager1 : MonoBehaviour
     public float missHits;
 
     public GameObject resultsScreen;
-    public Text percentHitText, normalsText, goodsText, perfectsText, missesTexts,rankText, finalScoreText;
+    public Text percentHitText, normalsText, goodsText, perfectsText, missesTexts, rankText, finalScoreText;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         instance = this;
         scoreText.text = "Score: 0";
         currentMultiplier = 1;
 
-        totalNotes = Object.FindObjectsByType<NoteObject>(FindObjectsSortMode.None).Length; // FindObjectsOfType has been deprecated 
+        totalNotes = Object.FindObjectsByType<NoteObject>(FindObjectsSortMode.None).Length;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!startPlaying)
         {
-            if(Input.anyKeyDown)
+            if (Input.anyKeyDown)
             {
                 startPlaying = true;
                 theBS.hasStarted = true;
-
                 theMusic.Play();
             }
-        
-        } else
+        }
+        else
         {
-            if(!theMusic.isPlaying && !resultsScreen.activeInHierarchy)
+            if (!theMusic.isPlaying && !resultsScreen.activeInHierarchy)
             {
                 resultsScreen.SetActive(true);
 
-                normalsText.text = "" + normalHits;
+                normalsText.text = normalHits.ToString();
                 goodsText.text = goodHits.ToString();
                 perfectsText.text = perfectHits.ToString();
-                missesTexts.text = "" + missHits;
+                missesTexts.text = missHits.ToString();
 
                 float totalHit = normalHits + goodHits + perfectHits;
                 float percentHit = (totalHit / totalNotes) * 100f;
 
                 percentHitText.text = percentHit.ToString("F1") + "%";
 
-                string rankVal = "F";
-                if (percentHit  > 40)
-                {
-                    rankVal = "D";
-                    if (percentHit > 55)
-                    {
-                        rankVal = "C";
-                        if (percentHit > 70)
-                        {
-                            rankVal = "B";
-                             if (percentHit > 85)
-                            {
-                                rankVal = "A";
-                                if (percentHit > 95)
-                                {
-                                    rankVal = "S";
-                                    if (percentHit == 100)
-                                        rankVal = "SS";
-                                }
-
-                            }
-                        }
-                    }
-                }
+                string rankVal = CalculateRank(percentHit);
                 rankText.text = rankVal;
 
                 finalScoreText.text = currentScore.ToString();
 
+                // Save attempt to player profile
+                SaveRhythmAttempt(percentHit, rankVal);
             }
         }
     }
 
+    string CalculateRank(float percentHit)
+    {
+        if (percentHit == 100f) return "SS";
+        if (percentHit > 95f) return "S";
+        if (percentHit > 85f) return "A";
+        if (percentHit > 70f) return "B";
+        if (percentHit > 55f) return "C";
+        if (percentHit > 40f) return "D";
+        return "F";
+    }
+
+    void SaveRhythmAttempt(float percentHit, string rankVal)
+    {
+        var profile = ProfileManager.Instance?.currentProfile;
+        if (profile == null)
+        {
+            Debug.LogWarning("No active profile. Rhythm attempt not saved.");
+            return;
+        }
+
+        // Make sure the list exists
+        if (profile.rhythmAttempts == null)
+            profile.rhythmAttempts = new System.Collections.Generic.List<PlayerProfile.RhythmAttemptData>();
+
+        PlayerProfile.RhythmAttemptData attempt = new PlayerProfile.RhythmAttemptData(
+            totalNotes,
+            normalHits,
+            goodHits,
+            perfectHits,
+            missHits,
+            currentScore,
+            rankVal,
+            profile.playerName
+        );
+
+        profile.rhythmAttempts.Add(attempt);
+        ProfileManager.Instance.SaveProfiles();
+
+        Debug.Log($"Rhythm attempt saved | Score: {currentScore} | PercentHit: {percentHit:F1}% | Rank: {rankVal}");
+    }
+
     public void NoteHit()
     {
-        Debug.Log("Hit On Time");
         if (currentMultiplier - 1 < multiplierThresholds.Length)
         {
             multiplierTracker++;
@@ -112,8 +130,8 @@ public class GameManager1 : MonoBehaviour
                 currentMultiplier++;
             }
         }
+
         multiText.text = "Multiplier: x" + currentMultiplier;
-        //currentScore += scorePerNote * currentMultiplier;
         scoreText.text = "Score: " + currentScore;
     }
 
@@ -121,7 +139,6 @@ public class GameManager1 : MonoBehaviour
     {
         currentScore += scorePerNote * currentMultiplier;
         NoteHit();
-
         normalHits++;
     }
 
@@ -129,7 +146,6 @@ public class GameManager1 : MonoBehaviour
     {
         currentScore += scorePerGoodNote * currentMultiplier;
         NoteHit();
-
         goodHits++;
     }
 
@@ -137,17 +153,19 @@ public class GameManager1 : MonoBehaviour
     {
         currentScore += scorePerPerfectNote * currentMultiplier;
         NoteHit();
-
         perfectHits++;
     }
 
     public void NoteMissed()
     {
-        Debug.Log("Missed Note");   
         currentMultiplier = 1;
         multiplierTracker = 0;
         multiText.text = "Multiplier: x" + currentMultiplier;
-
         missHits++;
+    }
+
+    public void LoadRhythmMainMenu()
+    {
+        SceneManager.LoadScene("RhythmMainMenu");
     }
 }

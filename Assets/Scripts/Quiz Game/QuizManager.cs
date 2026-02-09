@@ -120,16 +120,19 @@ public class QuizManager : MonoBehaviour
         GoPanel.SetActive(true);
         ScoreTxt.text = score + "/" + TotalQuestions;
 
-        //SAVE QUIZ SCORE TO PLAYER PROFILE
+        // Save the quiz attempt to the profile
         if (ScoreManager.Instance != null)
         {
-            ScoreManager.Instance.SaveQuizStats(score, TotalQuestions);
+            ScoreManager.Instance.SaveQuizAttempt(score, TotalQuestions);
         }
         else
         {
-            Debug.LogWarning("ScoreManager not found. Score not saved.");
+            Debug.LogWarning("ScoreManager not found. Attempt not saved.");
         }
     }
+
+
+
 
     void SetAnswers()
     {

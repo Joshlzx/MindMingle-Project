@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static PlayerProfile;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,6 +21,17 @@ public class GameManager : MonoBehaviour
     [Header("Audio Setup")]
     [SerializeField] private float duration = 0.2f;
     [SerializeField] private AudioSource audioSource;
+
+    [Header("UI Elements")]
+    [SerializeField] private TMPro.TextMeshProUGUI levelText;
+    [SerializeField] private TMPro.TextMeshProUGUI movesLeftText;
+    [SerializeField] private UnityEngine.UI.Button replayButton;
+    [SerializeField] private GameObject scoreboardButton;
+
+    private int currentLevel = 1;
+    private int hintsUsed = 0;
+    private int progressIntoLevel = 0;
+
 
     enum GameMode
     {
@@ -68,6 +80,13 @@ public class GameManager : MonoBehaviour
         // Start in the menu game mode, with flashing lights and no sound.
         gameMode = GameMode.Menu;
         StartCoroutine(MenuTileAnimation());
+
+        // Disable replay button at start
+        replayButton.onClick.AddListener(ReplayCurrentPattern);
+        replayButton.gameObject.SetActive(false);
+
+        UpdateLevelText();
+        UpdateMovesLeftText();
     }
 
     void Update()
@@ -98,6 +117,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void UpdateLevelText()
+    {
+        if (levelText != null)
+            levelText.text = $"Level: {currentLevel}";
+    }
+
+
+    private void UpdateMovesLeftText()
+    {
+        if (movesLeftText != null)
+        {
+            int movesLeft = Mathf.Max(levelTiles.Count - currentIndex, 0);
+            movesLeftText.text = $"Moves Left: {movesLeft}";
+        }
+    }
+
+
     private IEnumerator FlashTile(int index)
     {
         tile[index].TurnOn();
@@ -107,30 +143,46 @@ public class GameManager : MonoBehaviour
 
     public void PlayLightAndTone(int index)
     {
-        if (gameMode == GameMode.Playing)
+        if (gameMode != GameMode.Playing) return;
+
+        StartCoroutine(FlashTile(index));
+
+        if (index == levelTiles[currentIndex])
         {
-            StartCoroutine(FlashTile(index));
-            // If it was the correct tile.
-            if (index == levelTiles[currentIndex])
+            PlayTone(index);
+            currentIndex++;
+            progressIntoLevel = currentIndex; // track how far into pattern
+            UpdateMovesLeftText();
+
+            if (currentIndex == levelTiles.Count)
             {
-                PlayTone(index);
-                // Increment the current index in the sequence.
-                currentIndex++;
-                // If we've reached the end, add another light and play sequence again.
-                if (currentIndex == levelTiles.Count)
-                {
-                    levelTiles.Add(Random.Range(0, numTiles));
-                    StartCoroutine(PlaySequence());
-                }
+                levelTiles.Add(Random.Range(0, numTiles)); // increase level
+                currentLevel++;
+                UpdateLevelText();
+                StartCoroutine(PlaySequence());
             }
-            else
-            {
-                // End the game.
-                Debug.Log($"You got to level {levelTiles.Count - 2}");
-                gameMode = GameMode.Menu;
-                playButton.SetActive(true);
-                PlayErrorTone();
-            }
+        }
+        else
+        {
+            SaveSimonResult();
+            // Game over
+            Debug.Log($"You got to level {levelTiles.Count - 2}");
+            gameMode = GameMode.Menu;
+            playButton.SetActive(true);
+            scoreboardButton.SetActive(true);
+            replayButton.gameObject.SetActive(false);
+            PlayErrorTone();
+        }
+    }
+
+
+
+    public void ReplayCurrentPattern()
+    {
+        if (gameMode == GameMode.Playing || gameMode == GameMode.Listening)
+        {
+            hintsUsed++; // count hint usage
+            StartCoroutine(PlaySequence());
         }
     }
 
@@ -161,9 +213,14 @@ public class GameManager : MonoBehaviour
     {
         // Hide the play button.
         playButton.SetActive(false);
+        scoreboardButton.SetActive(false);
+        replayButton.gameObject.SetActive(false);
 
         // Stop the lights flashing from the menu.
         StopCoroutine(MenuTileAnimation());
+
+        currentLevel = 1;
+        UpdateLevelText();
 
         // Clear out the old level data, start with three lights.
         levelTiles = new() {
@@ -184,22 +241,50 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator PlaySequence()
     {
-        // Set the appropriate game mode.
         gameMode = GameMode.Listening;
+        replayButton.gameObject.SetActive(false); // disable while showing sequence
 
-        // Wait two seconds to start
         yield return new WaitForSeconds(2f);
-        // Light each of the tiles in sequence.
+
         foreach (int index in levelTiles)
         {
             PlayTone(index);
             yield return FlashTile(index);
-            // Pause before the next one.
             yield return new WaitForSeconds(duration);
         }
 
-        // Set the GameMode to Playing to allow user input.
         currentIndex = 0;
         gameMode = GameMode.Playing;
+
+        replayButton.gameObject.SetActive(true); // enable after sequence
+        UpdateMovesLeftText();
     }
+    void SaveSimonResult()
+    {
+        var profile = ProfileManager.Instance?.currentProfile;
+
+        if (profile == null)
+        {
+            Debug.LogWarning("No active profile. Simon result not saved.");
+            return;
+        }
+
+        SimonAttemptData attempt = new SimonAttemptData(
+            currentLevel,
+            hintsUsed,
+            progressIntoLevel
+        );
+
+        profile.simonAttempts.Add(attempt);
+        ProfileManager.Instance.SaveProfiles();
+
+        Debug.Log("Simon attempt saved.");
+    }
+
+    public void LoadScoreboard()
+    {
+        SceneManager.LoadScene("SimonScoreboard");
+    }
+
+
 }

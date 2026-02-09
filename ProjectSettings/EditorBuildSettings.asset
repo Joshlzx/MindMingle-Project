@@ -26,6 +26,27 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Maze Game.unity
     guid: e232980356b3b2d4b882b3d929c56dd3
+  - enabled: 1
+    path: Assets/Scenes/QuizAttemptHistoryScene.unity
+    guid: d8bc0b5b359d99a448956aae9bafbf2c
+  - enabled: 1
+    path: Assets/Scenes/QuizMainMenu.unity
+    guid: 70722406eaa954044a70fad2dcce3d3b
+  - enabled: 1
+    path: Assets/Scenes/SimonScoreboard.unity
+    guid: 9ae7f85ca1366b746a32dfda2acbd796
+  - enabled: 1
+    path: Assets/Scenes/RhythmScoreboard.unity
+    guid: 738d2659242033448a658f19c321aa7d
+  - enabled: 1
+    path: Assets/Scenes/RhythmMainMenu.unity
+    guid: f62295753000898479e97be9b94ef1d0
+  - enabled: 1
+    path: Assets/Scenes/MazeMainMenu.unity
+    guid: 68d54d8ea1d3f0c45b3fd5c70e44422f
+  - enabled: 1
+    path: Assets/Scenes/MazeScoreboard.unity
+    guid: 2d6a1c270d5b93242a69a738c11eca02
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

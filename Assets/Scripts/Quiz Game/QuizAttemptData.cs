@@ -1,16 +1,14 @@
-using UnityEngine;
-
-public class NewMonoBehaviourScript : MonoBehaviour
+[System.Serializable]
+public class QuizAttemptData
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public int totalQuestions;
+    public int correctAnswers;
+    public string dateTime;   // change from DateTime
 
-    // Update is called once per frame
-    void Update()
+    public QuizAttemptData(int correct, int total)
     {
-        
+        correctAnswers = correct;
+        totalQuestions = total;
+        dateTime = System.DateTime.Now.ToString("dd MMM yyyy HH:mm");
     }
 }

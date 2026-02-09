@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -17,21 +18,27 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    public void SaveQuizStats(int correctAnswers, int totalQuestions)
+    public void SaveQuizAttempt(int correctAnswers, int totalQuestions)
     {
-        if (ProfileManager.Instance == null || ProfileManager.Instance.currentProfile == null)
+        var profile = ProfileManager.Instance?.currentProfile;
+
+        if (profile == null)
         {
-            Debug.LogWarning("No active profile. Quiz stats not saved.");
+            Debug.LogWarning("No active profile. Quiz attempt not saved.");
             return;
         }
 
-        PlayerProfile profile = ProfileManager.Instance.currentProfile;
+        PlayerProfile.QuizAttemptData attempt =
+            new PlayerProfile.QuizAttemptData(totalQuestions, correctAnswers);
+
+        profile.quizAttempts.Add(attempt);
 
         profile.totalQuizCorrect += correctAnswers;
         profile.totalQuizQuestions += totalQuestions;
 
         ProfileManager.Instance.SaveProfiles();
 
-        Debug.Log("Quiz stats saved to profile: " + profile.playerName);
+        Debug.Log($"Saved attempt for {profile.playerName}");
     }
+
 }

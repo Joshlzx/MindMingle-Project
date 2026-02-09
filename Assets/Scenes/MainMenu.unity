@@ -204,7 +204,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 415340998}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: LoadQuizGame
+        m_MethodName: LoadQuizMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1373,7 +1373,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 415340998}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: LoadMazeGame
+        m_MethodName: LoadMazeMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1642,7 +1642,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 415340998}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: LoadRhythmGame
+        m_MethodName: LoadRhythmMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

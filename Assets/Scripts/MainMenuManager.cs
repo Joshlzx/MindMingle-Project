@@ -26,4 +26,38 @@ public class MainMenuManager : MonoBehaviour
     {
         SceneManager.LoadScene("ProfileSelectionScene");
     }
+    public void LoadQuizScoreboard()
+    {
+        SceneManager.LoadScene("QuizAttemptHistoryScene");
+    }
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+    public void LoadQuizMainMenu()
+    {
+        SceneManager.LoadScene("QuizMainMenu");
+    }
+
+    public void LoadSimonScoreboard()
+    {
+        SceneManager.LoadScene("SimonScoreboard");
+    }
+    public void LoadRhythmScoreboard()
+    {
+        SceneManager.LoadScene("RhythmScoreboard");
+    }
+    public void LoadRhythmMainMenu()
+    {
+        SceneManager.LoadScene("RhythmMainMenu");
+    }
+
+    public void LoadMazeScoreboard()
+    {
+        SceneManager.LoadScene("MazeScoreboard");
+    }
+    public void LoadMazeMainMenu()
+    {
+        SceneManager.LoadScene("MazeMainMenu");
+    }
 }

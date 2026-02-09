@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1021,6 +1021,12 @@ MonoBehaviour:
   profiles: []
   currentProfile:
     playerName: 
+    totalQuizQuestions: 0
+    totalQuizCorrect: 0
+    quizAttempts: []
+    simonAttempts: []
+    rhythmAttempts: []
+    mazeAttempts: []
 --- !u!4 &1138448498
 Transform:
   m_ObjectHideFlags: 0
@@ -1414,7 +1420,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Select Profile '
+  m_text: 'Select your Profile '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
