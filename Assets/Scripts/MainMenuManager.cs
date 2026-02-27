@@ -60,4 +60,19 @@ public class MainMenuManager : MonoBehaviour
     {
         SceneManager.LoadScene("MazeMainMenu");
     }
+
+    public void LoadPathTrailTest()
+    {
+        SceneManager.LoadScene("PathTrailTest");
+    }
+
+    public void PathTrailMenu()
+    {
+        SceneManager.LoadScene("PathTrailMenu");
+    }
+
+    public void LoadPathTrailScoreboard()
+    {
+        SceneManager.LoadScene("PathTrailScoreboard");
+    }
 }

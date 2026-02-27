@@ -40,7 +40,9 @@ public class MazeAttemptHistoryManager : MonoBehaviour
             GameObject entry = Instantiate(attemptEntryPrefab, attemptsContent);
 
             entry.GetComponent<TextMeshProUGUI>().text =
-                $"Level: {attempt.levelReached} | Hints: {attempt.totalHintsUsed} | {attempt.dateTime}";
+                $"<b><color=#9C27B0>Level: {attempt.levelReached}</color></b> | " +    // Purple + Bold
+                $"<b><color=#FF8C00>Hints: {attempt.totalHintsUsed}</color></b> | " +  // Dark Orange + Bold
+                $"<b><color=#666666>{attempt.dateTime}</color></b>";                    // Gray + Bold
         }
     }
 
@@ -77,11 +79,14 @@ public class MazeAttemptHistoryManager : MonoBehaviour
         bestAttempts.Sort((a, b) => b.levelReached.CompareTo(a.levelReached));
 
         foreach (var attempt in bestAttempts)
-        {
-            GameObject entry = Instantiate(highscoreEntryPrefab, highscoresContent);
+{
+    GameObject entry = Instantiate(highscoreEntryPrefab, highscoresContent);
 
-            entry.GetComponent<TextMeshProUGUI>().text =
-                $"{attempt.playerName} | Level: {attempt.levelReached} | Hints: {attempt.totalHintsUsed} | {attempt.dateTime}";
-        }
+    entry.GetComponent<TextMeshProUGUI>().text =
+        $"<b><color=#000000>{attempt.playerName}</color></b> | " +                  // Black + Bold
+        $"<b><color=#9C27B0>Level: {attempt.levelReached}</color></b> | " +        // Purple + Bold
+        $"<b><color=#FF8C00>Hints: {attempt.totalHintsUsed}</color></b> | " +      // Dark Orange + Bold
+        $"<b><color=#666666>{attempt.dateTime}</color></b>";                        // Gray + Bold
+}
     }
 }

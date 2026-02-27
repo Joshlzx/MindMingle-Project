@@ -32,8 +32,16 @@ public class RhythmAttemptHistoryManager : MonoBehaviour
         foreach (var attempt in attemptsSorted)
         {
             GameObject entry = Instantiate(attemptEntryPrefab, attemptsContent);
+
             entry.GetComponent<TextMeshProUGUI>().text =
-                $"Score: {attempt.finalScore} | Rank: {attempt.rank} | Hit: {attempt.percentHit:F1}% | Normal: {attempt.normalHits} | Good: {attempt.goodHits} | Perfect: {attempt.perfectHits} | Miss: {attempt.missHits} | {attempt.dateTime}";
+                $"<b><color=#CC00FF>Score: {attempt.finalScore}</color></b> | " +         // Purple + Bold
+                $"<b><color=#FFD700>Rank: {attempt.rank}</color></b> | " +                // Gold + Bold
+                $"<b><color=#00FFFF>Hit: {attempt.percentHit:F1}%</color></b> | " +       // Cyan + Bold
+                $"<b><color=#FFFFFF>Normal: {attempt.normalHits}</color></b> | " +        // White + Bold
+                $"<b><color=#4DA6FF>Good: {attempt.goodHits}</color></b> | " +            // Softer Blue + Bold
+                $"<b><color=#00FF00>Perfect: {attempt.perfectHits}</color></b> | " +      // Green + Bold
+                $"<b><color=#FF0000>Miss: {attempt.missHits}</color></b> | " +            // Red + Bold
+                $"<b><color=#666666>{attempt.dateTime}</color></b>";                      // Gray + Bold
         }
     }
 
@@ -65,15 +73,24 @@ public class RhythmAttemptHistoryManager : MonoBehaviour
             bestAttempts.Add(best);
         }
 
-        // Sort all best attempts by percentHit descending
+        
         bestAttempts.Sort((a, b) => b.percentHit.CompareTo(a.percentHit));
 
         // Display
         foreach (var attempt in bestAttempts)
         {
             GameObject entry = Instantiate(highscoreEntryPrefab, highscoresContent);
+
             entry.GetComponent<TextMeshProUGUI>().text =
-                $"{attempt.playerName} | Score: {attempt.finalScore} | Rank: {attempt.rank} | Hit: {attempt.percentHit:F1}% | Normal: {attempt.normalHits} | Good: {attempt.goodHits} | Perfect: {attempt.perfectHits} | Miss: {attempt.missHits} | {attempt.dateTime}";
+                $"<b><color=#000000>{attempt.playerName}</color></b> | " +                       // Black + Bold
+                $"<b><color=#CC00FF>Score: {attempt.finalScore}</color></b> | " +                // Purple + Bold
+                $"<b><color=#FFD700>Rank: {attempt.rank}</color></b> | " +                       // Gold + Bold
+                $"<b><color=#00FFFF>Hit: {attempt.percentHit:F1}%</color></b> | " +              // Cyan + Bold
+                $"<b><color=#FFFFFF>Normal: {attempt.normalHits}</color></b> | " +               // White + Bold
+                $"<b><color=#4DA6FF>Good: {attempt.goodHits}</color></b> | " +                    // Softer Blue + Bold
+                $"<b><color=#00FF00>Perfect: {attempt.perfectHits}</color></b> | " +             // Green + Bold
+                $"<b><color=#FF0000>Miss: {attempt.missHits}</color></b> | " +                    // Red + Bold
+                $"<b><color=#666666>{attempt.dateTime}</color></b>";                               // Gray + Bold
         }
     }
 }

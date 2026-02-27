@@ -10,16 +10,19 @@ public class PlayerProfile
     public int totalQuizQuestions;
     public int totalQuizCorrect;
 
-    // Quiz attempt history
+   
     public List<QuizAttemptData> quizAttempts = new List<QuizAttemptData>();
 
-    // Simon attempt history
+  
     public List<SimonAttemptData> simonAttempts = new List<SimonAttemptData>();
 
-    // Rhythm attempt history
+   
     public List<RhythmAttemptData> rhythmAttempts = new List<RhythmAttemptData>();
 
     public List<MazeAttemptData> mazeAttempts = new List<MazeAttemptData>();
+
+    
+    public List<PathTrailAttemptData> pathTrailAttempts = new List<PathTrailAttemptData>();
 
     public PlayerProfile(string name)
     {
@@ -73,7 +76,6 @@ public class PlayerProfile
         public string dateTime;
         public string playerName;
 
-        // ✅ Add this property so you can access percentHit directly
         public float percentHit => ((normalHits + goodHits + perfectHits) / totalNotes) * 100f;
 
         public RhythmAttemptData(
@@ -112,6 +114,23 @@ public class PlayerProfile
             playerName = name;
             levelReached = level;
             totalHintsUsed = hints;
+            dateTime = DateTime.Now.ToString("dd MMM yyyy HH:mm");
+        }
+    }
+
+    [System.Serializable]
+    public class PathTrailAttemptData
+    {
+        public float completionTime;
+        public int totalErrors;
+        public string dateTime;
+        public string playerName;
+
+        public PathTrailAttemptData(float time, int errors, string playerName)
+        {
+            completionTime = time;
+            totalErrors = errors;
+            this.playerName = playerName;
             dateTime = DateTime.Now.ToString("dd MMM yyyy HH:mm");
         }
     }

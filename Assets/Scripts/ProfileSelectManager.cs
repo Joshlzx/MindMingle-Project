@@ -26,14 +26,13 @@ public class ProfileSelectManager : MonoBehaviour
     private List<PlayerProfile> profiles;
     private PlayerProfile profileToDelete;
 
-    public static int lastPage = 0;          // stores the page number when returning
+    public static int lastPage = 0;          
     
 
     private void Start()
     {
         profiles = ProfileManager.Instance.profiles;
 
-        // Jump to last page if returning from new profile
         currentPage = lastPage;
 
         prevButton.onClick.AddListener(() => ChangePage(-1));
@@ -44,14 +43,14 @@ public class ProfileSelectManager : MonoBehaviour
 
     private void RefreshPage()
     {
-        // Clear old buttons
+        
         foreach (Transform child in profileSlotsContainer)
             Destroy(child.gameObject);
 
         int startIndex = currentPage * profilesPerPage;
-        int profilesOnThisPage = 0; // count actual profiles
+        int profilesOnThisPage = 0; 
 
-        // Count number of actual profiles on this page
+        
         for (int i = 0; i < profilesPerPage; i++)
         {
             int profileIndex = startIndex + i;
@@ -61,7 +60,7 @@ public class ProfileSelectManager : MonoBehaviour
 
         bool createNewAdded = false;
 
-        // Instantiate UI slots
+        
         for (int i = 0; i < profilesPerPage; i++)
         {
             int profileIndex = startIndex + i;
@@ -69,14 +68,14 @@ public class ProfileSelectManager : MonoBehaviour
 
             if (profileIndex < profiles.Count)
             {
-                profile = profiles[profileIndex]; // existing profile
+                profile = profiles[profileIndex]; 
             }
             else if (!createNewAdded)
             {
-                profile = null; // first empty slot → Create New Profile
+                profile = null; 
                 createNewAdded = true;
             }
-            // else: blank slot
+            
 
             GameObject slotGO = Instantiate(profileSlotPrefab, profileSlotsContainer);
             ProfileSlotUI slotUI = slotGO.GetComponent<ProfileSlotUI>();
@@ -152,6 +151,8 @@ public class ProfileSelectManager : MonoBehaviour
 
         deleteNoButton.onClick.RemoveAllListeners();
         deleteNoButton.onClick.AddListener(DeleteCancelled);
+
+        pageNumberText.gameObject.SetActive(false);
     }
 
     private void DeleteConfirmed()
@@ -164,6 +165,7 @@ public class ProfileSelectManager : MonoBehaviour
         }
 
         deleteConfirmPanel.SetActive(false);
+        pageNumberText.gameObject.SetActive(true);
         RefreshPage();
     }
 
@@ -171,6 +173,7 @@ public class ProfileSelectManager : MonoBehaviour
     {
         profileToDelete = null;
         deleteConfirmPanel.SetActive(false);
+        pageNumberText.gameObject.SetActive(true);
     }
     #endregion
 }

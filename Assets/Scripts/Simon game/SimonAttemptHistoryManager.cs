@@ -32,8 +32,11 @@ public class SimonAttemptHistoryManager : MonoBehaviour
         foreach (PlayerProfile.SimonAttemptData attempt in profile.simonAttempts)
         {
             GameObject entry = Instantiate(attemptEntryPrefab, attemptsContent);
+
             entry.GetComponent<TextMeshProUGUI>().text =
-                $"Level {attempt.levelReached}  |  Hints {attempt.hintsUsed}  |  {attempt.dateTime}";
+                $"<b><color=#9C27B0>Level {attempt.levelReached}</color></b>  |  " +   
+                $"<b><color=#FF8C00>Hints {attempt.hintsUsed}</color></b>  |  " +      
+                $"<b><color=#666666>{attempt.dateTime}</color></b>";                    
         }
     }
 
@@ -71,8 +74,12 @@ public class SimonAttemptHistoryManager : MonoBehaviour
         foreach (var entryData in bestAttempts)
         {
             GameObject entry = Instantiate(highscoreEntryPrefab, highscoresContent);
+
             entry.GetComponent<TextMeshProUGUI>().text =
-                $"{entryData.playerName}  |  Level {entryData.bestAttempt.levelReached}  |  Hints {entryData.bestAttempt.hintsUsed}  |  {entryData.bestAttempt.dateTime}";
+                $"<b><color=#000000>{entryData.playerName}</color></b>  |  " +                  
+                $"<b><color=#9C27B0>Level {entryData.bestAttempt.levelReached}</color></b>  |  " +  
+                $"<b><color=#FF8C00>Hints {entryData.bestAttempt.hintsUsed}</color></b>  |  " +     
+                $"<b><color=#666666>{entryData.bestAttempt.dateTime}</color></b>";                   
         }
     }
 

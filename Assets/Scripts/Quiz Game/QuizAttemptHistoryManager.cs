@@ -25,10 +25,10 @@ public class QuizAttemptHistoryManager : MonoBehaviour
         foreach (Transform child in attemptsContent)
             Destroy(child.gameObject);
 
-        // COPY list so we can sort it
+        
         List<PlayerProfile.QuizAttemptData> sortedAttempts = new List<PlayerProfile.QuizAttemptData>(profile.quizAttempts);
 
-        // SORT latest first
+      
         sortedAttempts.Sort((a, b) =>
         {
             System.DateTime dateA = System.DateTime.Parse(a.dateTime);
@@ -36,13 +36,14 @@ public class QuizAttemptHistoryManager : MonoBehaviour
             return dateB.CompareTo(dateA);
         });
 
-        // Spawn UI
+
         foreach (var attempt in sortedAttempts)
         {
             GameObject entry = Instantiate(attemptEntryPrefab, attemptsContent);
 
             entry.GetComponent<TextMeshProUGUI>().text =
-                $"{attempt.correctAnswers}/{attempt.totalQuestions}  |  {attempt.dateTime}";
+                $"<b>{attempt.correctAnswers}/{attempt.totalQuestions}</b>  |  " +          // Bold, default color
+                $"<b><color=#666666>{attempt.dateTime}</color></b>";                         // Gray + Bold
         }
     }
 
@@ -83,7 +84,9 @@ public class QuizAttemptHistoryManager : MonoBehaviour
             GameObject entry = Instantiate(highscoreEntryPrefab, highscoresContent);
 
             entry.GetComponent<TextMeshProUGUI>().text =
-                $"{entryData.playerName}  |  {entryData.bestAttempt.correctAnswers}/{entryData.bestAttempt.totalQuestions}  |  {entryData.bestAttempt.dateTime}";
+                $"<b><color=#000000>{entryData.playerName}</color></b>" +                          // Black + Bold
+                $"  |  <b>{entryData.bestAttempt.correctAnswers}/{entryData.bestAttempt.totalQuestions}</b>" + // Bold
+                $"  |  <b><color=#666666>{entryData.bestAttempt.dateTime}</color></b>";            // Gray + Bold
         }
     }
 

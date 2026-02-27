@@ -47,6 +47,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MazeScoreboard.unity
     guid: 2d6a1c270d5b93242a69a738c11eca02
+  - enabled: 1
+    path: Assets/Scenes/PathTrailTest.unity
+    guid: 6e711c0edb2d9b84abd93c544e71774d
+  - enabled: 1
+    path: Assets/Scenes/PathTrailMenu.unity
+    guid: 61cf76d6a89080a48bce7f779393c370
+  - enabled: 1
+    path: Assets/Scenes/PathTrailScoreboard.unity
+    guid: c7a57b76b47cce5468d83284d5871bf7
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
