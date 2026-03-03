@@ -12,21 +12,19 @@ public class PathNode : MonoBehaviour
     public Image indicatorRed;
     public Image indicatorBlue;
     public Image indicatorYellow;
+    public Image indicatorGreen;
 
     [HideInInspector]
     public string nodeValue;
 
+    private Coroutine pulseCoroutine;
     private Coroutine clickCoroutine;
+    private Color originalColor;
 
     void Awake()
     {
-        if (mainCircle == null)
-            mainCircle = GetComponent<Image>();
-
-        // Disable all indicators by default
-        indicatorRed.gameObject.SetActive(false);
-        indicatorBlue.gameObject.SetActive(false);
-        indicatorYellow.gameObject.SetActive(false);
+        originalColor = mainCircle.color;
+        ResetIndicators();
     }
 
     public void Setup(string value)
@@ -38,52 +36,87 @@ public class PathNode : MonoBehaviour
 
     public void Highlight(Color color)
     {
-        if (mainCircle != null)
-            mainCircle.color = color;
+        mainCircle.color = color;
     }
 
-    public void ResetColor()
+    public void StartCurrentHighlight()
     {
-        if (mainCircle != null)
-            mainCircle.color = Color.white;
-
-        StopClickAnimation();
-
-        indicatorRed.gameObject.SetActive(false);
-        indicatorBlue.gameObject.SetActive(false);
-        indicatorYellow.gameObject.SetActive(false);
+        StopCurrentHighlight();
+        pulseCoroutine = StartCoroutine(PulseEffect());
     }
 
-    // Show colored indicator above the node with click animation
-    // index: 0 = red, 1 = blue, 2 = yellow
+    public void StopCurrentHighlight()
+    {
+        if (pulseCoroutine != null)
+        {
+            StopCoroutine(pulseCoroutine);
+            pulseCoroutine = null;
+        }
+        mainCircle.color = originalColor;
+    }
+
+    IEnumerator PulseEffect()
+    {
+        float speed = 2f; // pulse speed
+
+        Color baseColor = Color.yellow;       // high-contrast color
+        Color pulseColor = new Color(1f, 0.6f, 0f); // orange-like for strong pulse
+
+        Vector3 originalScale = mainCircle.rectTransform.localScale;
+        Vector3 pulseScale = originalScale * 1.2f; // slightly larger for visibility
+
+        while (true)
+        {
+            // Lerp color
+            float t = (Mathf.Sin(Time.time * speed) + 1f) / 2f;
+            mainCircle.color = Color.Lerp(baseColor, pulseColor, t);
+
+            // Lerp scale for extra visibility
+            mainCircle.rectTransform.localScale = Vector3.Lerp(originalScale, pulseScale, t);
+
+            yield return null;
+        }
+    }
+
     public void ShowIndicator(int index)
     {
-        StopClickAnimation();
+        ResetIndicators();
 
         indicatorRed.gameObject.SetActive(index == 0);
         indicatorBlue.gameObject.SetActive(index == 1);
         indicatorYellow.gameObject.SetActive(index == 2);
+        indicatorGreen.gameObject.SetActive(index == 3);
 
         Image active = GetActiveIndicator();
         if (active != null)
             clickCoroutine = StartCoroutine(ClickAnimation(active));
     }
 
-    private Image GetActiveIndicator()
+    public void ResetIndicators()
+    {
+        mainCircle.color = originalColor; 
+
+        indicatorRed.gameObject.SetActive(false);
+        indicatorBlue.gameObject.SetActive(false);
+        indicatorYellow.gameObject.SetActive(false);
+        indicatorGreen.gameObject.SetActive(false);
+    }
+
+    Image GetActiveIndicator()
     {
         if (indicatorRed.gameObject.activeSelf) return indicatorRed;
         if (indicatorBlue.gameObject.activeSelf) return indicatorBlue;
         if (indicatorYellow.gameObject.activeSelf) return indicatorYellow;
+        if (indicatorGreen.gameObject.activeSelf) return indicatorGreen;
         return null;
     }
 
-    private IEnumerator ClickAnimation(Image img)
+    IEnumerator ClickAnimation(Image img)
     {
-        Vector3 originalScale = img.rectTransform.localScale;
+        Vector3 originalScale = Vector3.one;
         Vector3 enlarged = originalScale * 1.3f;
-        float duration = 0.1f; // quick click
+        float duration = 0.1f;
 
-        // Scale up
         float t = 0f;
         while (t < duration)
         {
@@ -91,9 +124,9 @@ public class PathNode : MonoBehaviour
             t += Time.deltaTime;
             yield return null;
         }
+
         img.rectTransform.localScale = enlarged;
 
-        // Scale back
         t = 0f;
         while (t < duration)
         {
@@ -101,20 +134,7 @@ public class PathNode : MonoBehaviour
             t += Time.deltaTime;
             yield return null;
         }
+
         img.rectTransform.localScale = originalScale;
-    }
-
-    private void StopClickAnimation()
-    {
-        if (clickCoroutine != null)
-        {
-            StopCoroutine(clickCoroutine);
-            clickCoroutine = null;
-        }
-
-        // Reset scale of all indicators
-        indicatorRed.rectTransform.localScale = Vector3.one;
-        indicatorBlue.rectTransform.localScale = Vector3.one;
-        indicatorYellow.rectTransform.localScale = Vector3.one;
     }
 }
