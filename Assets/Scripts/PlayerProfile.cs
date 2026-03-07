@@ -123,15 +123,19 @@ public class PlayerProfile
     {
         public float completionTime;
         public int totalErrors;
+        public int totalNodes; // max errors possible
+        public string grade;
         public string dateTime;
         public string playerName;
 
-        public PathTrailAttemptData(float time, int errors, string playerName)
+        public PathTrailAttemptData(float time, int errors, string playerName, int totalNodes, string grade)
         {
             completionTime = time;
             totalErrors = errors;
             this.playerName = playerName;
-            dateTime = DateTime.Now.ToString("dd MMM yyyy HH:mm");
+            this.totalNodes = totalNodes;
+            this.grade = grade;
+            dateTime = System.DateTime.Now.ToString("dd MMM yyyy HH:mm");
         }
     }
 

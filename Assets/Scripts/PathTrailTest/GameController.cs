@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
-using UnityEngine.SceneManagement;
-using static PlayerProfile;
 
 public class GameController : MonoBehaviour
 {
@@ -14,12 +13,9 @@ public class GameController : MonoBehaviour
     public UILineRenderer uiLineRenderer;
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI errorText;
-    public TextMeshProUGUI resultText;
 
     [Header("Result Screen")]
-    public GameObject resultPanel;
-    public Button playAgainButton;
-    public Button mainMenuButton;
+    public PathTrailResultScreen resultScreen; // drag the panel object here
 
     private int currentIndex = 0;
     private int errors = 0;
@@ -31,21 +27,19 @@ public class GameController : MonoBehaviour
     private List<PathNode> currentOptions = new List<PathNode>();
     private List<PathNode> stepWrongNodes = new List<PathNode>();
 
+    private int maxErrorsPerNode = 3; // max errors per node
+
     void Start()
     {
+        // Show timer and error UI
+        if (timerText != null) timerText.gameObject.SetActive(true);
+        if (errorText != null) errorText.gameObject.SetActive(true);
+
+        // Initialize nodes
         if (generator.spawnedNodes.Count == 0)
             StartCoroutine(InitNextFrame());
         else
             GenerateOptions();
-
-        if (playAgainButton != null)
-            playAgainButton.onClick.AddListener(PlayAgain);
-
-        if (mainMenuButton != null)
-            mainMenuButton.onClick.AddListener(BackToMainMenu);
-
-        if (resultPanel != null)
-            resultPanel.SetActive(false);
     }
 
     IEnumerator InitNextFrame()
@@ -62,7 +56,6 @@ public class GameController : MonoBehaviour
         timerText.text = $"Time: {timer:F1}";
         errorText.text = $"Errors: {errors}";
 
-        // Key inputs for selecting options
         if (Input.GetKeyDown(KeyCode.Z)) SelectOption(0);
         if (Input.GetKeyDown(KeyCode.X)) SelectOption(1);
         if (Input.GetKeyDown(KeyCode.C)) SelectOption(2);
@@ -72,23 +65,16 @@ public class GameController : MonoBehaviour
     void GenerateOptions()
     {
         currentOptions.Clear();
-
         string correctValue = generator.correctSequence[currentIndex];
-        PathNode correctNode = generator.spawnedNodes
-            .Find(n => n.nodeValue == correctValue);
+        PathNode correctNode = generator.spawnedNodes.Find(n => n.nodeValue == correctValue);
 
         currentOptions.Add(correctNode);
 
-        // Add random nodes until we have 4 options
         while (currentOptions.Count < 4)
         {
             PathNode randomNode = generator.spawnedNodes[Random.Range(0, generator.spawnedNodes.Count)];
-
-            // Skip if it's already in options OR if it's the current node
             if (!currentOptions.Contains(randomNode) && randomNode != currentNode)
-            {
                 currentOptions.Add(randomNode);
-            }
         }
 
         Shuffle(currentOptions);
@@ -113,58 +99,46 @@ public class GameController : MonoBehaviour
 
         if (selected.nodeValue == correctValue)
         {
-            // Correct selection
-
-            // Stop pulse and mark previous node green
             if (currentNode != null)
             {
                 currentNode.StopCurrentHighlight();
                 currentNode.Highlight(Color.green);
             }
 
-            // Reset all wrong nodes from this step
             foreach (var wrongNode in stepWrongNodes)
-            {
                 wrongNode.ResetIndicators();
-            }
             stepWrongNodes.Clear();
 
-            // Set new current node and start pulsing
             currentNode = selected;
             currentNode.StartCurrentHighlight();
 
-            // Add to selected nodes for line drawing
             selectedNodes.Add(selected);
             DrawLine();
 
             currentIndex++;
 
-            // Check if finished
             if (currentIndex >= generator.correctSequence.Count)
             {
                 gameActive = false;
-                currentNode.StopCurrentHighlight();
-                currentNode.Highlight(Color.green);
+                if (currentNode != null)
+                {
+                    currentNode.StopCurrentHighlight();
+                    currentNode.Highlight(Color.green);
+                }
                 OnGameFinished();
                 return;
             }
 
-            // Generate options for next step
             GenerateOptions();
         }
         else
         {
-            // Wrong selection
-
-            // Only increment errors if this node hasn't been selected wrong before in this step
             if (!stepWrongNodes.Contains(selected))
             {
                 errors++;
                 selected.Highlight(Color.red);
                 stepWrongNodes.Add(selected);
             }
-
-            // Current node keeps pulsing; do NOT generate new options
         }
     }
 
@@ -219,56 +193,50 @@ public class GameController : MonoBehaviour
 
     void OnGameFinished()
     {
-        gameActive = false;
+        int totalNodes = generator.correctSequence.Count;
+        int maxErrors = totalNodes * maxErrorsPerNode;
+        string grade = GetGrade(errors, maxErrors);
 
-        // SAVE ATTEMPT
-        SaveAttempt();
+        SaveAttempt(errors, maxErrors, grade);
 
+        // Hide game UI
         timerText.gameObject.SetActive(false);
         errorText.gameObject.SetActive(false);
         uiLineRenderer.gameObject.SetActive(false);
-
         foreach (var node in generator.spawnedNodes)
             node.gameObject.SetActive(false);
 
-        if (resultPanel != null)
-            resultPanel.SetActive(true);
-
-        if (resultText != null)
-        {
-            resultText.text =
-                $"<b><color=#000000>COMPLETED!</color></b>\n" +
-                $"<b><color=#9C27B0>Time: {timer:F1}s</color></b>\n" +
-                $"<b><color=#FF8C00>Errors: {errors}</color></b>";
-        }
+        // Show result panel last
+        if (resultScreen != null)
+            resultScreen.ShowResult(timer, errors, maxErrors, grade);
+        else
+            Debug.LogError("ResultScreen reference is missing!");
     }
 
-    void PlayAgain()
+    string GetGrade(int errorsMade, int maxErrors)
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        float percent = 100f * (1f - (float)errorsMade / maxErrors);
+
+        if (percent >= 90f) return "Excellent";  //Grades based on percentage accuracy
+        if (percent >= 75f) return "Good";
+        if (percent >= 50f) return "Average";
+        return "Poor";
     }
 
-    void BackToMainMenu()
+    void SaveAttempt(int errorsMade, int maxErrors, string grade)
     {
-        SceneManager.LoadScene("PathTrailMenu");
-    }
-
-    void SaveAttempt()
-    {
-        if (ProfileManager.Instance == null) return;
-
-        var profile = ProfileManager.Instance.currentProfile;
+        var profile = ProfileManager.Instance?.currentProfile;
         if (profile == null) return;
 
-        PlayerProfile.PathTrailAttemptData newAttempt =
-            new PlayerProfile.PathTrailAttemptData(
-                timer,
-                errors,
-                profile.playerName
-            );
+        var attempt = new PlayerProfile.PathTrailAttemptData(
+            timer,
+            errorsMade,
+            profile.playerName,
+            maxErrors,
+            grade
+        );
 
-        profile.pathTrailAttempts.Add(newAttempt);
-
+        profile.pathTrailAttempts.Add(attempt);
         ProfileManager.Instance.SaveProfiles();
     }
 }
