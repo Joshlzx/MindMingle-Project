@@ -2,29 +2,23 @@ using UnityEngine;
 
 public class BeatScroller : MonoBehaviour
 {
-    public float beatTempo;
+    [HideInInspector] public float noteSpeed;
+    [HideInInspector] public float spawnY;
+    [HideInInspector] public float hitY;
+    [HideInInspector] public float spawnTime;
+    [HideInInspector] public AudioSource music;
 
-    public bool hasStarted;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        beatTempo = beatTempo / 60f;
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        if (!hasStarted)  // try !hasStarted if something doesnt work
-        {
-            /* if(Input.anyKeyDown)
-            {
-                hasStarted = true;
-            }*/
-        }
-        else
-        {
-            transform.position -= new Vector3(0f, beatTempo * Time.deltaTime, 0f);
-        }
-        }
-    }
+        if (music == null) return;
 
+        float elapsed = music.time - spawnTime;
+
+        // Move note from spawnY to hitY based on elapsed time
+        transform.position = new Vector3(
+            transform.position.x,
+            spawnY - elapsed * noteSpeed,
+            transform.position.z
+        );
+    }
+}
