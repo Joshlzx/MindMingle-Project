@@ -21,16 +21,16 @@ EditorBuildSettings:
     path: Assets/Scenes/Rhythm Game Scenes/Rhythm game.unity
     guid: e2b5e9a5d65ddda4bb73f74850be94f4
   - enabled: 1
-    path: Assets/Scenes/Quiz Game.unity
+    path: Assets/Scenes/Quiz Game/DailyLifeQuiz.unity
     guid: f37a00718f73adf489637778d1fe74d6
   - enabled: 1
     path: Assets/Scenes/Maze Game.unity
     guid: e232980356b3b2d4b882b3d929c56dd3
   - enabled: 1
-    path: Assets/Scenes/QuizAttemptHistoryScene.unity
+    path: Assets/Scenes/Quiz Game/QuizAttemptHistoryScene.unity
     guid: d8bc0b5b359d99a448956aae9bafbf2c
   - enabled: 1
-    path: Assets/Scenes/QuizMainMenu.unity
+    path: Assets/Scenes/Quiz Game/QuizMainMenu.unity
     guid: 70722406eaa954044a70fad2dcce3d3b
   - enabled: 1
     path: Assets/Scenes/SimonScoreboard.unity
