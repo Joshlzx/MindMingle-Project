@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 14927230}
   - component: {fileID: 14927229}
   m_Layer: 0
-  m_Name: GameCard_Quiz
+  m_Name: 'Card 1 '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -205,7 +205,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 415340998}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: LoadQuizMainMenu
+        m_MethodName: LoadRhythmGame2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -526,7 +526,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -4344553233622325524, guid: 251c29197474c394899e062e48aef5ab, type: 3}
+  m_Sprite: {fileID: 6062212062840614740, guid: 7b257f5fedbdb9842af1b6c7f484aede, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -645,7 +645,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Rhythm Game
+  m_text: Where I Belong
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -672,15 +672,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25.9
-  m_fontSizeBase: 25.9
+  m_fontSize: 23
+  m_fontSizeBase: 23
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 2048
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -990,7 +990,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 415340998}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: BackToProfileSelection
+        m_MethodName: LoadRhythmDifficultySelect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1199,10 +1199,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Quiz Game
+  m_text: "\u6708\u4EAE\u4EE3\u8868\u6211\u7684\u5FC3"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5bc214370ce61ab4ba0de68d4f5add1d, type: 2}
+  m_sharedMaterial: {fileID: 1249809876319986888, guid: 5bc214370ce61ab4ba0de68d4f5add1d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1226,15 +1226,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.17
-  m_fontSizeBase: 28.17
+  m_fontSize: 20.56
+  m_fontSizeBase: 20.56
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 2048
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1427,7 +1427,7 @@ GameObject:
   - component: {fileID: 1371156786}
   - component: {fileID: 1371156785}
   m_Layer: 0
-  m_Name: GameCard_Rhythm
+  m_Name: 'Card 2 '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1500,7 +1500,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 415340998}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: LoadRhythmMainMenu
+        m_MethodName: LoadRhythmGame3
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1605,7 +1605,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 971057682960397871, guid: a4c8891a5e2ab5a4ca7b734d2cdde0cd, type: 3}
+  m_Sprite: {fileID: 6760986614849934404, guid: 7fc4d8032a7d9824ca6aea643e389e4d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -31,12 +31,23 @@ public class RhythmChartGenerator : MonoBehaviour
         RhythmChart chart = JsonUtility.FromJson<RhythmChart>(File.ReadAllText(path));
         float travelTime = Mathf.Abs(spawnY - hitY) / noteSpeed;
 
+        // Rotation for each lane: Left, Up, Down, Right
+        float[] laneRotations = { 180f, 90f, -90f, 0f };
+
         foreach (var note in chart.notes)
         {
             Vector3 pos = laneSpawnPoints[note.lane].position;
             pos.y = spawnY;
 
-            GameObject noteObj = Instantiate(notePrefabs[note.lane], pos, Quaternion.identity, noteHolder);
+            // Apply rotation based on lane
+            Quaternion rotation = Quaternion.Euler(0f, 0f, laneRotations[note.lane]);
+
+            GameObject noteObj = Instantiate(
+                notePrefabs[note.lane],
+                pos,
+                rotation,
+                noteHolder
+            );
 
             BeatScroller scroller = noteObj.GetComponent<BeatScroller>();
             if (scroller != null)

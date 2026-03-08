@@ -75,4 +75,45 @@ public class MainMenuManager : MonoBehaviour
     {
         SceneManager.LoadScene("PathTrailScoreboard");
     }
+    public void LoadEasyRhythmGame()
+    {
+        SceneManager.LoadScene("EasyRhythmGame");
+    }
+    public void LoadMediumRhythmGame()
+    {
+        SceneManager.LoadScene("MediumRhythmGame");
+    }
+    public void LoadHardRhythmGame()
+    {
+        SceneManager.LoadScene("HardRhythmGame");
+    }
+
+    public void LoadRhythmGame1()
+    {
+        SceneManager.LoadScene("Rhythm game 1");
+    }
+    public void LoadRhythmGame2()
+    {
+        SceneManager.LoadScene("Rhythm game 2");
+    }
+    public void LoadRhythmGame3()
+    {
+        SceneManager.LoadScene("Rhythm game 3");
+    }
+    public void LoadRhythmGame4()
+    {
+        SceneManager.LoadScene("Rhythm game 4");
+    }
+    public void LoadRhythmGame5()
+    {
+        SceneManager.LoadScene("Rhythm game 5");
+    }
+
+    public void LoadRhythmDifficultySelect()
+    {
+        SceneManager.LoadScene("RhythmDifficultySelect");
+    }
+
+
+
 }

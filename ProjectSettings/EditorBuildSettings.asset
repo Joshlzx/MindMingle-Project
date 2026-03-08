@@ -56,6 +56,33 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PathTrailScoreboard.unity
     guid: c7a57b76b47cce5468d83284d5871bf7
+  - enabled: 1
+    path: Assets/Scenes/Rhythm Game Scenes/EasyRhythmGame.unity
+    guid: 6c40646b4a671aa48880085b3a1a7e63
+  - enabled: 1
+    path: Assets/Scenes/Rhythm Game Scenes/HardRhythmGame.unity
+    guid: ed5307225837eeb409a3b6c606276f75
+  - enabled: 1
+    path: Assets/Scenes/Rhythm Game Scenes/MediumRhythmGame.unity
+    guid: b8bbadca960d48441ad5dc451fb1111f
+  - enabled: 1
+    path: Assets/Scenes/Rhythm Game Scenes/Rhythm game 1.unity
+    guid: 7253f4bb48a74904bbdd65678d529d4a
+  - enabled: 1
+    path: Assets/Scenes/Rhythm Game Scenes/Rhythm game 2.unity
+    guid: 29730bc701b3e8a4694a49217a3086ad
+  - enabled: 1
+    path: Assets/Scenes/Rhythm Game Scenes/Rhythm game 3.unity
+    guid: c56fe522b98aa104d80c026b0728a5c3
+  - enabled: 1
+    path: Assets/Scenes/Rhythm Game Scenes/Rhythm game 4.unity
+    guid: bf745c94835cdf2489e3dcab0ac44508
+  - enabled: 1
+    path: Assets/Scenes/Rhythm Game Scenes/Rhythm game 5.unity
+    guid: b426f5e33ba0573429c7f6e3fc0d3739
+  - enabled: 1
+    path: Assets/Scenes/Rhythm Game Scenes/RhythmDifficultySelect.unity
+    guid: 208964b1f1a409b4f8138edd0800a2c2
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
