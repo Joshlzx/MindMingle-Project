@@ -83,6 +83,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Rhythm Game Scenes/RhythmDifficultySelect.unity
     guid: 208964b1f1a409b4f8138edd0800a2c2
+  - enabled: 1
+    path: Assets/Scenes/Quiz Game/Food&Drinks Quiz.unity
+    guid: 964bf219a8e7c2e4cb5c8f1a9c1f6c0a
+  - enabled: 1
+    path: Assets/Scenes/Quiz Game/ItemsQuiz.unity
+    guid: 76f3ac2bfaa17b24491922406f1fd05d
+  - enabled: 1
+    path: Assets/Scenes/Quiz Game/QuizThemes.unity
+    guid: ab3142b1bb2b4a640812db3922a60a32
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

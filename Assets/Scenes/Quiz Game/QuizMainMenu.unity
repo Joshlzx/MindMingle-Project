@@ -1001,7 +1001,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 287788856}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: LoadQuizGame
+        m_MethodName: LoadQuizThemes
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

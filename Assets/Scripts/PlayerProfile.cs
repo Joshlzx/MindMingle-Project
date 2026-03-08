@@ -10,18 +10,11 @@ public class PlayerProfile
     public int totalQuizQuestions;
     public int totalQuizCorrect;
 
-   
+    // All attempts for different games
     public List<QuizAttemptData> quizAttempts = new List<QuizAttemptData>();
-
-  
     public List<SimonAttemptData> simonAttempts = new List<SimonAttemptData>();
-
-   
     public List<RhythmAttemptData> rhythmAttempts = new List<RhythmAttemptData>();
-
     public List<MazeAttemptData> mazeAttempts = new List<MazeAttemptData>();
-
-    
     public List<PathTrailAttemptData> pathTrailAttempts = new List<PathTrailAttemptData>();
 
     public PlayerProfile(string name)
@@ -31,21 +24,27 @@ public class PlayerProfile
         totalQuizCorrect = 0;
     }
 
+    #region Quiz Attempt
     [System.Serializable]
     public class QuizAttemptData
     {
         public string dateTime;
         public int totalQuestions;
         public int correctAnswers;
+        public int themeID; // NEW: stores the theme
 
-        public QuizAttemptData(int total, int correct)
+        // Constructor with theme
+        public QuizAttemptData(int total, int correct, int theme)
         {
             totalQuestions = total;
             correctAnswers = correct;
+            themeID = theme;
             dateTime = DateTime.Now.ToString("dd MMM yyyy HH:mm");
         }
     }
+    #endregion
 
+    #region Simon Attempt
     [System.Serializable]
     public class SimonAttemptData
     {
@@ -62,12 +61,13 @@ public class PlayerProfile
             dateTime = DateTime.Now.ToString("dd MMM yyyy HH:mm");
         }
     }
+    #endregion
 
+    #region Rhythm Attempt
     [System.Serializable]
     public class RhythmAttemptData
     {
-        public string mapID;  
-
+        public string mapID;
         public float totalNotes;
         public float normalHits;
         public float goodHits;
@@ -81,7 +81,6 @@ public class PlayerProfile
         public float percentHit => ((normalHits + goodHits + perfectHits) / totalNotes) * 100f;
 
         public RhythmAttemptData(
-
             string mapID,
             float totalNotes,
             float normalHits,
@@ -94,7 +93,6 @@ public class PlayerProfile
         )
         {
             this.mapID = mapID;
-
             this.totalNotes = totalNotes;
             this.normalHits = normalHits;
             this.goodHits = goodHits;
@@ -103,10 +101,12 @@ public class PlayerProfile
             this.finalScore = finalScore;
             this.rank = rank;
             this.playerName = playerName;
-            this.dateTime = System.DateTime.Now.ToString("dd MMM yyyy HH:mm");
+            this.dateTime = DateTime.Now.ToString("dd MMM yyyy HH:mm");
         }
     }
+    #endregion
 
+    #region Maze Attempt
     [System.Serializable]
     public class MazeAttemptData
     {
@@ -123,13 +123,15 @@ public class PlayerProfile
             dateTime = DateTime.Now.ToString("dd MMM yyyy HH:mm");
         }
     }
+    #endregion
 
+    #region PathTrail Attempt
     [System.Serializable]
     public class PathTrailAttemptData
     {
         public float completionTime;
         public int totalErrors;
-        public int totalNodes; // max errors possible
+        public int totalNodes;
         public string grade;
         public string dateTime;
         public string playerName;
@@ -141,28 +143,8 @@ public class PlayerProfile
             this.playerName = playerName;
             this.totalNodes = totalNodes;
             this.grade = grade;
-            dateTime = System.DateTime.Now.ToString("dd MMM yyyy HH:mm");
+            dateTime = DateTime.Now.ToString("dd MMM yyyy HH:mm");
         }
     }
-
+    #endregion
 }
-
-
-
-
-
-
-/* Next coding idea:
-
-- Make a scoreboard page that tracks all their latest progress. Then in that page , have a button that they can press that leads them to a highscore board that shows everyone's highest attempt.
-Do this for all the game. 
-
-- For each game , store and display:
-Rhythm game - total score, hit percentage and rank
-Simon game - the furthest level they reached
-Maze game - Furthest  level they reach , and how many times they press hint 
-Quiz game - Total number of question and total correct answer
-
-* if you can , add timing and date to each entry too
-
-Current progress: Managed to create ScoreManager that stores Quiz Game's total question and total correct answer */

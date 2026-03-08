@@ -3,11 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
-    public void LoadQuizGame()
-    {
-        SceneManager.LoadScene("Quiz game");
-    }
-
     public void LoadRhythmGame()
     {
         SceneManager.LoadScene("Rhythm game");
@@ -112,6 +107,22 @@ public class MainMenuManager : MonoBehaviour
     public void LoadRhythmDifficultySelect()
     {
         SceneManager.LoadScene("RhythmDifficultySelect");
+    }
+    public void LoadDailyLifeQuiz()
+    {
+        SceneManager.LoadScene("DailyLifeQuiz");
+    }
+    public void LoadFoodAndDrinksQuiz()
+    {
+        SceneManager.LoadScene("Food&Drinks Quiz");
+    }
+    public void LoadItemsQuiz()
+    {
+        SceneManager.LoadScene("ItemsQuiz");
+    }
+    public void LoadQuizThemes()
+    {
+        SceneManager.LoadScene("QuizThemes");
     }
 
 

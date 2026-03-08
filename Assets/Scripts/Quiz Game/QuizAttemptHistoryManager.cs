@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -6,89 +7,85 @@ public class QuizAttemptHistoryManager : MonoBehaviour
 {
     public Transform attemptsContent;
     public GameObject attemptEntryPrefab;
-
     public Transform highscoresContent;
     public GameObject highscoreEntryPrefab;
 
-    private void Start()
+    [Header("Theme Settings")]
+    public TextMeshProUGUI themeNameText;
+    public List<string> themeNames;
+    public int currentThemeID = 1;
+
+    private void Start() => UpdateUI();
+
+    public void UpdateUI()
     {
-        ShowCurrentPlayerAttempts();
-        ShowAllPlayersHighscores();
+        ShowCurrentPlayerAttempts(currentThemeID);
+        ShowAllPlayersHighscores(currentThemeID);
+
+        if (themeNameText != null && themeNames.Count > currentThemeID)
+            themeNameText.text = themeNames[currentThemeID];
     }
 
-    void ShowCurrentPlayerAttempts()
+    void ShowCurrentPlayerAttempts(int themeID)
     {
         var profile = ProfileManager.Instance?.currentProfile;
-
-        if (profile == null || profile.quizAttempts == null) return;
+        if (profile == null) return;
 
         foreach (Transform child in attemptsContent)
             Destroy(child.gameObject);
 
-        
-        List<PlayerProfile.QuizAttemptData> sortedAttempts = new List<PlayerProfile.QuizAttemptData>(profile.quizAttempts);
+        var themeAttempts = profile.quizAttempts.FindAll(a => a.themeID == themeID);
+        themeAttempts.Sort((a, b) => DateTime.Parse(b.dateTime).CompareTo(DateTime.Parse(a.dateTime)));
 
-      
-        sortedAttempts.Sort((a, b) =>
+        foreach (var attempt in themeAttempts)
         {
-            System.DateTime dateA = System.DateTime.Parse(a.dateTime);
-            System.DateTime dateB = System.DateTime.Parse(b.dateTime);
-            return dateB.CompareTo(dateA);
-        });
-
-
-        foreach (var attempt in sortedAttempts)
-        {
-            GameObject entry = Instantiate(attemptEntryPrefab, attemptsContent);
-
+            var entry = Instantiate(attemptEntryPrefab, attemptsContent);
             entry.GetComponent<TextMeshProUGUI>().text =
-                $"<b>{attempt.correctAnswers}/{attempt.totalQuestions}</b>  |  " +          // Bold, default color
-                $"<b><color=#666666>{attempt.dateTime}</color></b>";                         // Gray + Bold
+                $"<b>{attempt.correctAnswers}/{attempt.totalQuestions}</b> | " +
+                $"<b><color=#666666>{attempt.dateTime}</color></b>";
         }
     }
 
-
-    void ShowAllPlayersHighscores()
+    void ShowAllPlayersHighscores(int themeID)
     {
         foreach (Transform child in highscoresContent)
             Destroy(child.gameObject);
 
         if (ProfileManager.Instance == null) return;
 
-        // Create a temporary list to sort players by best score
-        List<(string playerName, PlayerProfile.QuizAttemptData bestAttempt)> highscoreList
-            = new List<(string, PlayerProfile.QuizAttemptData)>();
-
+        var highscoreList = new List<(string, PlayerProfile.QuizAttemptData)>();
         foreach (var p in ProfileManager.Instance.profiles)
         {
-            if (p.quizAttempts == null || p.quizAttempts.Count == 0)
-                continue;
+            var attempts = p.quizAttempts.FindAll(a => a.themeID == themeID);
+            if (attempts.Count == 0) continue;
 
-            PlayerProfile.QuizAttemptData best = p.quizAttempts[0];
-
-            foreach (var a in p.quizAttempts)
-            {
-                if (a.correctAnswers > best.correctAnswers)
-                    best = a;
-            }
+            var best = attempts[0];
+            foreach (var a in attempts) if (a.correctAnswers > best.correctAnswers) best = a;
 
             highscoreList.Add((p.playerName, best));
         }
 
-        // SORT by highest score
-        highscoreList.Sort((a, b) => b.bestAttempt.correctAnswers.CompareTo(a.bestAttempt.correctAnswers));
+        highscoreList.Sort((a, b) => b.Item2.correctAnswers.CompareTo(a.Item2.correctAnswers));
 
-        // Spawn UI
         foreach (var entryData in highscoreList)
         {
-            GameObject entry = Instantiate(highscoreEntryPrefab, highscoresContent);
-
+            var entry = Instantiate(highscoreEntryPrefab, highscoresContent);
             entry.GetComponent<TextMeshProUGUI>().text =
-                $"<b><color=#000000>{entryData.playerName}</color></b>" +                          // Black + Bold
-                $"  |  <b>{entryData.bestAttempt.correctAnswers}/{entryData.bestAttempt.totalQuestions}</b>" + // Bold
-                $"  |  <b><color=#666666>{entryData.bestAttempt.dateTime}</color></b>";            // Gray + Bold
+                $"<b><color=#000000>{entryData.Item1}</color></b> | " +
+                $"<b>{entryData.Item2.correctAnswers}/{entryData.Item2.totalQuestions}</b> | " +
+                $"<b><color=#666666>{entryData.Item2.dateTime}</color></b>";
         }
     }
 
+    public void NextTheme()
+    {
+        currentThemeID = (currentThemeID + 1) % themeNames.Count;
+        UpdateUI();
+    }
 
+    public void PreviousTheme()
+    {
+        currentThemeID = (currentThemeID - 1 + themeNames.Count) % themeNames.Count;
+        UpdateUI();
+    }
 }

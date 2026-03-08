@@ -1,67 +1,70 @@
-using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class QuizManager : MonoBehaviour
 {
+    [Header("Quiz Data")]
     public List<QuestionsAndAnswers> QnA;
-    public GameObject[] options;
     public int currentQuestion;
+    public int currentThemeID;
 
+    [Header("UI")]
     public GameObject Quizpanel;
     public GameObject GoPanel;
+    public TextMeshProUGUI QuestionTxt;
+    public TextMeshProUGUI ScoreTxt;
+    public GameObject[] options;
 
-    public TMPro.TextMeshProUGUI QuestionTxt;
-    public TMPro.TextMeshProUGUI ScoreTxt;
-
-    int TotalQuestions = 0;
+    [Header("Score")]
     public int score;
 
-    private void Start()
+    int TotalQuestions = 0;
+    bool canSelect = true;
+
+    void Start()
     {
-        // break reference to Inspector list
+        // Copy list so inspector data isn't modified
         QnA = new List<QuestionsAndAnswers>(QnA);
 
-        //Random seed every retry
+        // Random seed
         Random.InitState(System.DateTime.Now.Millisecond);
 
         TotalQuestions = QnA.Count;
+
         GoPanel.SetActive(false);
+
         ShuffleQuestions();
         currentQuestion = 0;
+
         generateQuestion();
     }
-
-    bool canSelect = true;
 
     void Update()
     {
         if (!Quizpanel.activeSelf || !canSelect) return;
 
-        if (Input.GetKeyDown(KeyCode.Z))
-            SelectAnswer(0);
-        if (Input.GetKeyDown(KeyCode.X))
-            SelectAnswer(1);
-        if (Input.GetKeyDown(KeyCode.C))
-            SelectAnswer(2);
-        if (Input.GetKeyDown(KeyCode.V))
-            SelectAnswer(3);
+        if (Input.GetKeyDown(KeyCode.Z)) SelectAnswer(0);
+        if (Input.GetKeyDown(KeyCode.X)) SelectAnswer(1);
+        if (Input.GetKeyDown(KeyCode.C)) SelectAnswer(2);
+        if (Input.GetKeyDown(KeyCode.V)) SelectAnswer(3);
     }
 
     void SelectAnswer(int optionIndex)
     {
         if (!canSelect) return;
+
         canSelect = false;
 
         AnswerScript ans = options[optionIndex].GetComponent<AnswerScript>();
 
         if (ans.isCorrect)
         {
-            correct();
             options[optionIndex].GetComponent<Image>().color = Color.green;
+            correct();
         }
         else
         {
@@ -78,21 +81,11 @@ public class QuizManager : MonoBehaviour
         canSelect = true;
     }
 
-    public void retry()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    IEnumerator WaitForNext()
-    {
-        yield return new WaitForSeconds(3);
-        generateQuestion();
-    }
-
     public void correct()
     {
         score++;
         currentQuestion++;
+
         StartCoroutine(WaitForNext());
     }
 
@@ -100,51 +93,46 @@ public class QuizManager : MonoBehaviour
     {
         ShowCorrectAnswer();
         currentQuestion++;
+
         StartCoroutine(WaitForNext());
     }
 
-    void ShuffleQuestions()
+    IEnumerator WaitForNext()
     {
-        for (int i = 0; i < QnA.Count; i++)
-        {
-            int randomIndex = Random.Range(i, QnA.Count);
-            QuestionsAndAnswers temp = QnA[i];
-            QnA[i] = QnA[randomIndex];
-            QnA[randomIndex] = temp;
-        }
+        yield return new WaitForSeconds(3f);
+        generateQuestion();
     }
 
-    public void GameOver()
+    void generateQuestion()
     {
-        Quizpanel.SetActive(false);
-        GoPanel.SetActive(true);
-        ScoreTxt.text = score + "/" + TotalQuestions;
-
-        // Save the quiz attempt to the profile
-        if (ScoreManager.Instance != null)
+        if (currentQuestion < QnA.Count)
         {
-            ScoreManager.Instance.SaveQuizAttempt(score, TotalQuestions);
+            QuestionTxt.text = QnA[currentQuestion].Question;
+            SetAnswers();
         }
         else
         {
-            Debug.LogWarning("ScoreManager not found. Attempt not saved.");
+            Debug.Log("Out of Questions");
+            GameOver();
         }
     }
-
-
-
 
     void SetAnswers()
     {
         for (int i = 0; i < options.Length; i++)
         {
-            options[i].GetComponent<Image>().color = options[i].GetComponent<AnswerScript>().startColor;
-            options[i].GetComponent<AnswerScript>().isCorrect = false;
-            options[i].transform.GetChild(0).GetComponent<Image>().sprite = QnA[currentQuestion].Answers[i];
+            Image img = options[i].GetComponent<Image>();
+            AnswerScript ans = options[i].GetComponent<AnswerScript>();
+
+            img.color = ans.startColor;
+            ans.isCorrect = false;
+
+            options[i].transform.GetChild(0).GetComponent<Image>().sprite =
+                QnA[currentQuestion].Answers[i];
 
             if (QnA[currentQuestion].CorrectAnswer == i + 1)
             {
-                options[i].GetComponent<AnswerScript>().isCorrect = true;
+                ans.isCorrect = true;
             }
         }
     }
@@ -162,17 +150,39 @@ public class QuizManager : MonoBehaviour
         }
     }
 
-    void generateQuestion()
+    void ShuffleQuestions()
     {
-        if (currentQuestion < QnA.Count)
+        for (int i = 0; i < QnA.Count; i++)
         {
-            QuestionTxt.text = QnA[currentQuestion].Question;
-            SetAnswers();
+            int randomIndex = Random.Range(i, QnA.Count);
+
+            QuestionsAndAnswers temp = QnA[i];
+            QnA[i] = QnA[randomIndex];
+            QnA[randomIndex] = temp;
+        }
+    }
+
+    public void GameOver()
+    {
+        Quizpanel.SetActive(false);
+        GoPanel.SetActive(true);
+
+        ScoreTxt.text = score + "/" + TotalQuestions;
+        Debug.Log("Saving attempt | Score: " + score + "/" + TotalQuestions + " | ThemeID: " + currentThemeID);
+
+        // Save attempt
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.SaveQuizAttempt(score, TotalQuestions, currentThemeID);
         }
         else
         {
-            Debug.Log("Out of Questions");
-            GameOver();
+            Debug.LogWarning("ScoreManager not found. Attempt not saved.");
         }
+    }
+
+    public void retry()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

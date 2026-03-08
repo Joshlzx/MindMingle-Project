@@ -1979,16 +1979,17 @@ MonoBehaviour:
     - {fileID: -1203174158840223747, guid: 9df3762e0e2243942876aedca17e4bd5, type: 3}
     - {fileID: 8420485207997377320, guid: 7ef363c21fbb9d748b0e2a052b53d5ea, type: 3}
     CorrectAnswer: 3
+  currentQuestion: 1
+  currentThemeID: 1
+  Quizpanel: {fileID: 1953171275}
+  GoPanel: {fileID: 1628223926}
+  QuestionTxt: {fileID: 40886614}
+  ScoreTxt: {fileID: 1751516707}
   options:
   - {fileID: 2133722520}
   - {fileID: 2038085926}
   - {fileID: 1434955138}
   - {fileID: 32060423}
-  currentQuestion: 1
-  Quizpanel: {fileID: 1953171275}
-  GoPanel: {fileID: 1628223926}
-  QuestionTxt: {fileID: 40886614}
-  ScoreTxt: {fileID: 1751516707}
   score: 0
 --- !u!4 &1842953959
 Transform:
@@ -2682,7 +2683,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1827468403}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: LoadMainMenu
+        m_MethodName: LoadQuizThemes
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
