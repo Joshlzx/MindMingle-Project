@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class GameManager1 : MonoBehaviour
 {
+    [Header("Beatmap")]
+    public string mapID;
+
     [Header("Audio & Game Control")]
     public AudioSource theMusic;
     public bool startPlaying;
@@ -113,6 +116,7 @@ public class GameManager1 : MonoBehaviour
             profile.rhythmAttempts = new System.Collections.Generic.List<PlayerProfile.RhythmAttemptData>();
 
         PlayerProfile.RhythmAttemptData attempt = new PlayerProfile.RhythmAttemptData(
+            mapID,
             totalNotes,
             normalHits,
             goodHits,
@@ -127,6 +131,7 @@ public class GameManager1 : MonoBehaviour
         ProfileManager.Instance.SaveProfiles();
 
         Debug.Log($"Rhythm attempt saved | Score: {currentScore} | PercentHit: {percentHit:F1}% | Rank: {rankVal}");
+        Debug.Log("Saved attempt mapID: " + mapID);
     }
 
     #region Note Hit Methods

@@ -1,6 +1,7 @@
 [System.Serializable]
 public class RhythmAttemptData
 {
+    public string mapID;
     public float totalNotes;
     public float normalHits;
     public float goodHits;
@@ -15,6 +16,7 @@ public class RhythmAttemptData
     public float percentHit => ((normalHits + goodHits + perfectHits) / totalNotes) * 100f;
 
     public RhythmAttemptData(
+        string mapID,
         float totalNotes,
         float normalHits,
         float goodHits,
@@ -25,6 +27,7 @@ public class RhythmAttemptData
         string playerName
     )
     {
+        this.mapID = mapID;
         this.totalNotes = totalNotes;
         this.normalHits = normalHits;
         this.goodHits = goodHits;
