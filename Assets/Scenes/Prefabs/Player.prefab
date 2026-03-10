@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8359555383134405669}
   - component: {fileID: 2077878608003739496}
   - component: {fileID: 5820720038670885720}
-  - component: {fileID: 963592481238886893}
+  - component: {fileID: 9090699261200369364}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -137,7 +137,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -162,7 +162,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.3
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &963592481238886893
+--- !u!114 &9090699261200369364
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -171,7 +171,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2996425990912683760}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd8fc98238ed8a849891686fa4231a9e, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a5bb48d9cbf43f4093c8f048adecbeb, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: '::'
+  m_EditorClassIdentifier: Assembly-CSharp::GridPlayerMovement
   moveSpeed: 5
+  mazeGenerator: {fileID: 0}
+  movementCollisionMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  visualizePathChecks: 0

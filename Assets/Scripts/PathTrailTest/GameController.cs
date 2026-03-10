@@ -29,6 +29,9 @@ public class GameController : MonoBehaviour
 
     private int maxErrorsPerNode = 3; // max errors per node
 
+    private float inputCooldown = 0.6f; 
+    private float lastInputTime = 0f;
+
     void Start()
     {
         // Show timer and error UI
@@ -56,10 +59,12 @@ public class GameController : MonoBehaviour
         timerText.text = $"Time: {timer:F1}";
         errorText.text = $"Errors: {errors}";
 
-        if (Input.GetKeyDown(KeyCode.Z)) SelectOption(0);
-        if (Input.GetKeyDown(KeyCode.X)) SelectOption(1);
-        if (Input.GetKeyDown(KeyCode.C)) SelectOption(2);
-        if (Input.GetKeyDown(KeyCode.V)) SelectOption(3);
+        if (Time.time - lastInputTime < inputCooldown) return;
+
+        if (Input.GetKeyDown(KeyCode.Z)) { SelectOption(0); lastInputTime = Time.time; }
+        if (Input.GetKeyDown(KeyCode.X)) { SelectOption(1); lastInputTime = Time.time; }
+        if (Input.GetKeyDown(KeyCode.C)) { SelectOption(2); lastInputTime = Time.time; }
+        if (Input.GetKeyDown(KeyCode.V)) { SelectOption(3); lastInputTime = Time.time; }
     }
 
     void GenerateOptions()

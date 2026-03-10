@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class MazeGenerator : MonoBehaviour
@@ -56,6 +56,14 @@ public class MazeGenerator : MonoBehaviour
         spawnPos.y = playerSpawnHeight;
         currentPlayer = Instantiate(playerPrefab, spawnPos, Quaternion.identity);
 
+        
+        GridPlayerMovement playerScript = currentPlayer.GetComponent<GridPlayerMovement>();
+        if (playerScript != null)
+        {
+            playerScript.mazeGenerator = this;
+            playerScript.Init();
+        }
+
         // Spawn goal at bottom-right
         MazeNode goalNode = nodes[nodes.Count - 1];
         Vector3 goalPos = goalNode.transform.position;
@@ -70,7 +78,7 @@ public class MazeGenerator : MonoBehaviour
         if (goalScript != null)
             goalScript.SetLevelManager(levelManager);
 
-        // Setup HintManager
+        
         if (hintManager != null)
         {
             hintManager.SetMazeGenerator(this);
@@ -83,7 +91,7 @@ public class MazeGenerator : MonoBehaviour
         Debug.Log("Goal Node: " + CurrentGoalNode.name);
     }
 
-    // Return closest node to a world position
+    
     public MazeNode GetNodeAtPosition(Vector3 position)
     {
         float minDist = float.MaxValue;
@@ -105,7 +113,7 @@ public class MazeGenerator : MonoBehaviour
         return closestNode;
     }
 
-    // Return neighbors without walls blocking
+
     public List<MazeNode> GetNeighbors(MazeNode node)
     {
         List<MazeNode> neighbors = new List<MazeNode>();
@@ -181,4 +189,39 @@ public class MazeGenerator : MonoBehaviour
             }
         }
     }
+
+    
+    public MazeNode GetNeighbor(MazeNode node, int direction)
+{
+    
+    if (node == null) return null;
+
+    foreach (MazeNode other in nodes)
+    {
+        if (other == node) continue;
+
+        Vector3 diff = other.transform.position - node.transform.position;
+
+        
+        const float eps = 0.1f;
+
+        switch (direction)
+        {
+            case 0: 
+                if (Mathf.Abs(diff.x + 1f) < eps && Mathf.Abs(diff.z) < eps) return other;
+                break;
+            case 1: 
+                if (Mathf.Abs(diff.x - 1f) < eps && Mathf.Abs(diff.z) < eps) return other;
+                break;
+            case 2:
+                if (Mathf.Abs(diff.z + 1f) < eps && Mathf.Abs(diff.x) < eps) return other;
+                break;
+            case 3: 
+                if (Mathf.Abs(diff.z - 1f) < eps && Mathf.Abs(diff.x) < eps) return other;
+                break;
+        }
+    }
+
+    return null;
+}
 }

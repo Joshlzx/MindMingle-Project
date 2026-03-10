@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using TMPro;
 using UnityEngine;
 using static PlayerProfile;
@@ -28,16 +30,16 @@ public class PathTrailAttemptHistoryManager : MonoBehaviour
 
         if (profile == null || profile.pathTrailAttempts == null) return;
 
-        // Sort: valid grades first by grade → errors → time, null/empty grades at the bottom
+        // Sort by date (latest first). If dates are equal or unparsable, fall back to grade/time/errors sorting.
         profile.pathTrailAttempts.Sort((a, b) =>
         {
-            bool aNull = string.IsNullOrEmpty(a.grade);
-            bool bNull = string.IsNullOrEmpty(b.grade);
+            DateTime da = ParseAttemptDate(a.dateTime);
+            DateTime db = ParseAttemptDate(b.dateTime);
 
-            if (aNull && bNull) return 0;
-            if (aNull) return 1;  // null goes below
-            if (bNull) return -1;
+            int dateCmp = db.CompareTo(da); // descending: newer first
+            if (dateCmp != 0) return dateCmp;
 
+            // fallback to existing grade-based comparison for stable ordering
             return ComparePathTrailAttemptsByGrade(a, b);
         });
 
@@ -151,5 +153,32 @@ public class PathTrailAttemptHistoryManager : MonoBehaviour
         if (a.totalErrors != b.totalErrors) return a.totalErrors < b.totalErrors;
 
         return a.completionTime < b.completionTime;
+    }
+
+    // Parse date string robustly. Returns DateTime.MinValue when unparsable.
+    DateTime ParseAttemptDate(string dateString)
+    {
+        if (string.IsNullOrEmpty(dateString)) return DateTime.MinValue;
+
+        // Common formats used across the project; add more as needed.
+        string[] formats = new[]
+        {
+            "dd MMM yyyy HH:mm",
+            "dd MMM yyyy H:mm",
+            "yyyy-MM-dd HH:mm:ss",
+            "yyyy-MM-ddTHH:mm:ss",
+            "o",               // ISO 8601 round-trip
+            "G", "g",          // general formats
+            "MM/dd/yyyy HH:mm",
+            "M/d/yyyy H:mm"
+        };
+
+        if (DateTime.TryParseExact(dateString, formats, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out var dt))
+            return dt;
+
+        if (DateTime.TryParse(dateString, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out dt))
+            return dt;
+
+        return DateTime.MinValue;
     }
 }

@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
     private int hintsUsed = 0;
     private int progressIntoLevel = 0;
 
+    private float inputCooldown = 0.4f;
+    private float lastInputTime = 0f;
 
     enum GameMode
     {
@@ -93,17 +95,12 @@ public class GameManager : MonoBehaviour
     {
         if (gameMode != GameMode.Playing) return;
 
-        if (Input.GetKeyDown(KeyCode.Z))
-            PlayLightAndTone(0);
+        if (Time.time - lastInputTime < inputCooldown) return;
 
-        if (Input.GetKeyDown(KeyCode.X))
-            PlayLightAndTone(1);
-
-        if (Input.GetKeyDown(KeyCode.C))
-            PlayLightAndTone(2);
-
-        if (Input.GetKeyDown(KeyCode.V))
-            PlayLightAndTone(3);
+        if (Input.GetKeyDown(KeyCode.Z)) { PlayLightAndTone(0); lastInputTime = Time.time; }
+        if (Input.GetKeyDown(KeyCode.X)) { PlayLightAndTone(1); lastInputTime = Time.time; }
+        if (Input.GetKeyDown(KeyCode.C)) { PlayLightAndTone(2); lastInputTime = Time.time; }
+        if (Input.GetKeyDown(KeyCode.V)) { PlayLightAndTone(3); lastInputTime = Time.time; }
     }
 
     private IEnumerator MenuTileAnimation()

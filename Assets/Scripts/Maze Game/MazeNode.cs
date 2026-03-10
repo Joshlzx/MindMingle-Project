@@ -74,4 +74,28 @@ public class MazeNode : MonoBehaviour
             return walls[wallIndex].activeSelf;
         return false;
     }
+
+    // Expose a wall GameObject for debugging / inspection
+    public GameObject GetWallObject(int index)
+    {
+        if (walls == null) return null;
+        if (index >= 0 && index < walls.Length)
+            return walls[index];
+        return null;
+    }
+
+    // Optional helper to log all wall names & active states (call from other scripts for diagnostics)
+    public void DebugLogWalls()
+    {
+        if (walls == null)
+        {
+            Debug.Log($"{name}: walls array is null");
+            return;
+        }
+        for (int i = 0; i < walls.Length; i++)
+        {
+            var w = walls[i];
+            Debug.Log($"{name}: wall[{i}] = {(w!=null?w.name:"null")}, active={(w!=null?w.activeSelf.ToString():"n/a")}");
+        }
+    }
 }
