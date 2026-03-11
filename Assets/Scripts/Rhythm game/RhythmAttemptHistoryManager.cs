@@ -66,10 +66,10 @@ public class RhythmAttemptHistoryManager : MonoBehaviour
                 $"<b><color=#CC00FF>Score: {attempt.finalScore}</color></b> | " +         // Purple + Bold
                 $"<b><color=#FFD700>Rank: {attempt.rank}</color></b> | " +                // Gold + Bold
                 $"<b><color=#00FFFF>Hit: {attempt.percentHit:F1}%</color></b> | " +       // Cyan + Bold
-                $"<b><color=#FFFFFF>Normal: {attempt.normalHits}</color></b> | " +        // White + Bold
-                $"<b><color=#4DA6FF>Good: {attempt.goodHits}</color></b> | " +            // Softer Blue + Bold
-                $"<b><color=#00FF00>Perfect: {attempt.perfectHits}</color></b> | " +      // Green + Bold
-                $"<b><color=#FF0000>Miss: {attempt.missHits}</color></b> | " +            // Red + Bold
+                //$"<b><color=#FFFFFF>Normal: {attempt.normalHits}</color></b> | " +        // White + Bold
+                //$"<b><color=#4DA6FF>Good: {attempt.goodHits}</color></b> | " +            // Softer Blue + Bold
+                //$"<b><color=#00FF00>Perfect: {attempt.perfectHits}</color></b> | " +      // Green + Bold
+                //$"<b><color=#FF0000>Miss: {attempt.missHits}</color></b> | " +            // Red + Bold
                 $"<b><color=#666666>{attempt.dateTime}</color></b>";                      // Gray + Bold
         }
     }
@@ -119,10 +119,10 @@ public class RhythmAttemptHistoryManager : MonoBehaviour
                 $"<b><color=#CC00FF>Score: {attempt.finalScore}</color></b> | " +
                 $"<b><color=#FFD700>Rank: {attempt.rank}</color></b> | " +
                 $"<b><color=#00FFFF>Hit: {attempt.percentHit:F1}%</color></b> | " +
-                $"<b><color=#FFFFFF>Normal: {attempt.normalHits}</color></b> | " +
-                $"<b><color=#4DA6FF>Good: {attempt.goodHits}</color></b> | " +
-                $"<b><color=#00FF00>Perfect: {attempt.perfectHits}</color></b> | " +
-                $"<b><color=#FF0000>Miss: {attempt.missHits}</color></b> | " +
+                //$"<b><color=#FFFFFF>Normal: {attempt.normalHits}</color></b> | " +
+                //$"<b><color=#4DA6FF>Good: {attempt.goodHits}</color></b> | " +
+                //$"<b><color=#00FF00>Perfect: {attempt.perfectHits}</color></b> | " +
+                //$"<b><color=#FF0000>Miss: {attempt.missHits}</color></b> | " +
                 $"<b><color=#666666>{attempt.dateTime}</color></b>";
         }
     }

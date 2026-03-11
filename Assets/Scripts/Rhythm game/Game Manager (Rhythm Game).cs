@@ -94,12 +94,12 @@ public class GameManager1 : MonoBehaviour
 
     private string CalculateRank(float percentHit)
     {
-        if (percentHit == 100f) return "SS";
-        if (percentHit > 95f) return "S";
-        if (percentHit > 85f) return "A";
-        if (percentHit > 70f) return "B";
-        if (percentHit > 55f) return "C";
-        if (percentHit > 40f) return "D";
+        if (percentHit == 100f) return "Perfect!";
+        if (percentHit > 95f) return "Excellent!";
+        if (percentHit > 85f) return "Good";
+        if (percentHit > 70f) return "Fair";
+        if (percentHit > 55f) return "Average";
+        if (percentHit > 40f) return "Poor";
         return "F";
     }
 
