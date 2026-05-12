@@ -1401,7 +1401,7 @@ MonoBehaviour:
   tilePrefab: {fileID: 55717276656574977, guid: 2e3e68645036d7f4d9f7b54beee50507, type: 3}
   gameArea: {fileID: 1799332496}
   playButton: {fileID: 133771248}
-  duration: 0.2
+  duration: 0.5
   audioSource: {fileID: 1789161582}
   levelText: {fileID: 2028599420}
   movesLeftText: {fileID: 2075942223}

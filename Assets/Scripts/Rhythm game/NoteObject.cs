@@ -16,10 +16,10 @@ public class NoteObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Convert KeyCode to string to match ESP32InputManager keys
-        string keyString = keyToPress.ToString(); // KeyCode.Z -> "Z"
+        
+        string keyString = keyToPress.ToString(); 
 
-        // Check if the key is pressed either from keyboard or ESP32
+        
         if (ESP32InputManager.Instance.GetKeyDown(keyString))
         {
             Debug.Log(gameObject.name + " triggered by " + keyString);
@@ -27,7 +27,7 @@ public class NoteObject : MonoBehaviour
             {
                 gameObject.SetActive(false);
 
-                // Determine hit type based on y-position
+                
                 float yPos = Mathf.Abs(transform.position.y);
 
                 if (yPos > 1f)

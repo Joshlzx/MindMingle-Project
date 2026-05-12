@@ -18,15 +18,15 @@ public class MazeGenerator : MonoBehaviour
     private GameObject currentGoal;
     private List<MazeNode> nodes = new List<MazeNode>();
 
-    // Expose current player for LevelManager if needed
+    
     public GameObject CurrentPlayer => currentPlayer;
 
-    // The MazeNode that represents the goal
+    
     public MazeNode CurrentGoalNode { get; private set; }
 
     public void GenerateNewMaze(Vector2Int size, LevelManager levelManager)
     {
-        // Destroy old maze
+        
         foreach (Transform child in transform)
             Destroy(child.gameObject);
 
@@ -36,7 +36,7 @@ public class MazeGenerator : MonoBehaviour
         nodes.Clear();
         CurrentGoalNode = null;
 
-        // Create nodes
+        
         for (int x = 0; x < size.x; x++)
         {
             for (int y = 0; y < size.y; y++)
@@ -47,10 +47,10 @@ public class MazeGenerator : MonoBehaviour
             }
         }
 
-        // Generate maze paths
+        
         GenerateMazePaths(size);
 
-        // Spawn player at top-left
+        
         MazeNode startNode = nodes[0];
         Vector3 spawnPos = startNode.transform.position;
         spawnPos.y = playerSpawnHeight;
@@ -64,16 +64,16 @@ public class MazeGenerator : MonoBehaviour
             playerScript.Init();
         }
 
-        // Spawn goal at bottom-right
+        
         MazeNode goalNode = nodes[nodes.Count - 1];
         Vector3 goalPos = goalNode.transform.position;
         goalPos.y = 0.5f;
         currentGoal = Instantiate(goalPrefab, goalPos, Quaternion.identity);
 
-        // Assign goal node for hints
+        
         CurrentGoalNode = goalNode;
 
-        // Assign LevelManager to Goal script
+        
         Goal goalScript = currentGoal.GetComponent<Goal>();
         if (goalScript != null)
             goalScript.SetLevelManager(levelManager);
@@ -86,7 +86,7 @@ public class MazeGenerator : MonoBehaviour
             
         }
 
-        // Debug
+       
         Debug.Log("Start Node: " + startNode.name);
         Debug.Log("Goal Node: " + CurrentGoalNode.name);
     }
@@ -137,7 +137,7 @@ public class MazeGenerator : MonoBehaviour
         return neighbors;
     }
 
-    // DFS maze generation
+    
     void GenerateMazePaths(Vector2Int size)
     {
         List<MazeNode> currentPath = new List<MazeNode>();

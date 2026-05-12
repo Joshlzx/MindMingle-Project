@@ -27,7 +27,7 @@ public class MazeAttemptHistoryManager : MonoBehaviour
         List<PlayerProfile.MazeAttemptData> attempts =
             new List<PlayerProfile.MazeAttemptData>(profile.mazeAttempts);
 
-        // 🔹 Sort by most recent attempt
+        
         attempts.Sort((a, b) =>
         {
             System.DateTime dateA = System.DateTime.Parse(a.dateTime);
@@ -40,9 +40,9 @@ public class MazeAttemptHistoryManager : MonoBehaviour
             GameObject entry = Instantiate(attemptEntryPrefab, attemptsContent);
 
             entry.GetComponent<TextMeshProUGUI>().text =
-                $"<b><color=#9C27B0>Level: {attempt.levelReached}</color></b> | " +    // Purple + Bold
-                $"<b><color=#FF8C00>Hints: {attempt.totalHintsUsed}</color></b> | " +  // Dark Orange + Bold
-                $"<b><color=#666666>{attempt.dateTime}</color></b>";                    // Gray + Bold
+                $"<b><color=#9C27B0>Level: {attempt.levelReached}</color></b> | " +    
+                $"<b><color=#FF8C00>Hints: {attempt.totalHintsUsed}</color></b> | " +  
+                $"<b><color=#666666>{attempt.dateTime}</color></b>";                    
         }
     }
 
@@ -83,10 +83,10 @@ public class MazeAttemptHistoryManager : MonoBehaviour
     GameObject entry = Instantiate(highscoreEntryPrefab, highscoresContent);
 
     entry.GetComponent<TextMeshProUGUI>().text =
-        $"<b><color=#000000>{attempt.playerName}</color></b> | " +                  // Black + Bold
-        $"<b><color=#9C27B0>Level: {attempt.levelReached}</color></b> | " +        // Purple + Bold
-        $"<b><color=#FF8C00>Hints: {attempt.totalHintsUsed}</color></b> | " +      // Dark Orange + Bold
-        $"<b><color=#666666>{attempt.dateTime}</color></b>";                        // Gray + Bold
+        $"<b><color=#000000>{attempt.playerName}</color></b> | " +                  
+        $"<b><color=#9C27B0>Level: {attempt.levelReached}</color></b> | " +        
+        $"<b><color=#FF8C00>Hints: {attempt.totalHintsUsed}</color></b> | " +      
+        $"<b><color=#666666>{attempt.dateTime}</color></b>";                        
 }
     }
 }

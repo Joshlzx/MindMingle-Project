@@ -20,7 +20,7 @@ public class LevelManager : MonoBehaviour
     public LevelCompleteUI levelCompleteUI;
     public HintManager hintManager;
 
-    // Track hints per level
+    
     public List<LevelHintData> levelHintHistory = new List<LevelHintData>();
 
     private int totalHintsUsedThisRun = 0;
@@ -69,7 +69,7 @@ public class LevelManager : MonoBehaviour
 
         Debug.Log($"Level {currentLevel} complete. Hints: {hintsUsed}");
 
-        // Save checkpoint progress
+        
         SaveCheckpointProgress();
 
         Invoke(nameof(NextLevel), levelDelay);
@@ -99,7 +99,7 @@ public class LevelManager : MonoBehaviour
             levelText.text = "Level: " + currentLevel;
     }
 
-    // 🔹 SAVE PROGRESS EVERY LEVEL (checkpoint)
+    
     void SaveCheckpointProgress()
     {
         var profile = ProfileManager.Instance?.currentProfile;
@@ -112,7 +112,7 @@ public class LevelManager : MonoBehaviour
         if (profile.mazeAttempts.Count > 0)
             last = profile.mazeAttempts[profile.mazeAttempts.Count - 1];
 
-        // Update last checkpoint if same run
+        
         if (last != null && last.levelReached < currentLevel)
         {
             last.levelReached = currentLevel;
@@ -133,7 +133,6 @@ public class LevelManager : MonoBehaviour
         ProfileManager.Instance.SaveProfiles();
     }
 
-    // 🔹 FINAL ATTEMPT WHEN PLAYER PRESSES BACK / EXIT
     public void ExitMaze()
     {
         FinalizeAttempt();

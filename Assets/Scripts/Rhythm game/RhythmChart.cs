@@ -10,8 +10,8 @@ public class RhythmChart
 [Serializable]
 public class NoteData
 {
-    public float time; // hit time in seconds
-    public int lane;   // lane index
+    public float time; 
+    public int lane;   
 
     public NoteData(float t, int l)
     {

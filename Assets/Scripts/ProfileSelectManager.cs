@@ -81,7 +81,7 @@ public class ProfileSelectManager : MonoBehaviour
             ProfileSlotUI slotUI = slotGO.GetComponent<ProfileSlotUI>();
             slotUI.Init(profile, this);
 
-            // Blank slots beyond Create New
+            
             if (profile == null && !createNewAdded)
             {
                 slotUI.slotText.text = "";
@@ -90,22 +90,22 @@ public class ProfileSelectManager : MonoBehaviour
             }
         }
 
-        // Enable prev button if currentPage > 0
+        
         prevButton.interactable = currentPage > 0;
 
  
 
-        // Calculate total pages including an extra page if needed for "Create New Profile"
+        
         int totalProfiles = profiles.Count;
-        int totalPages = Mathf.CeilToInt((float)(totalProfiles + 1) / profilesPerPage); // +1 for "Create New"
+        int totalPages = Mathf.CeilToInt((float)(totalProfiles + 1) / profilesPerPage); 
 
-        // Always at least 1 page
+       
         if (totalPages == 0) totalPages = 1;
 
-        // Enable next if there are more pages (including empty slots)
+        
         nextButton.interactable = (currentPage + 1) < totalPages;
 
-        // Display current page (1-based)
+        
         if (pageNumberText != null)
             pageNumberText.text = $"Page {currentPage + 1} / {totalPages}";
     }
@@ -126,15 +126,15 @@ public class ProfileSelectManager : MonoBehaviour
         if (slotUI.profile == null)
         {
 
-            // Before loading CreateProfileScene, store the current page
+            
             lastPage = currentPage;
 
-            // Go to Create Profile scene
+            
             SceneManager.LoadScene("CreateProfileScene");
         }
         else
         {
-            // Select profile and go to main menu
+            
             ProfileManager.Instance.SelectProfile(slotUI.profile);
             SceneManager.LoadScene("MainMenu");
         }

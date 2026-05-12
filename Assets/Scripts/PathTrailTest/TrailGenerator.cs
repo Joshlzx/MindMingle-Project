@@ -8,12 +8,12 @@ public class TrailGenerator : MonoBehaviour
     public RectTransform nodeContainer;
 
     [Header("Settings")]
-    public int pairs = 5;                   // number of number/letter pairs
-    public float minDistance = 200f;        // minimum distance between nodes
-    public float maxDistance = 250f;        // maximum distance between consecutive nodes
-    public int maxAttempts = 1000;           // max retries per node
-    public float screenMargin = 80f;        // canvas margin
-    public float angleStep = 15f;           // degrees to increment if placement fails
+    public int pairs = 5;
+    public float minDistance = 200f;
+    public float maxDistance = 250f;
+    public int maxAttempts = 1000;
+    public float screenMargin = 80f;
+    public float angleStep = 15f;
 
     [HideInInspector]
     public List<PathNode> spawnedNodes = new List<PathNode>();
@@ -47,7 +47,46 @@ public class TrailGenerator : MonoBehaviour
         float height = canvasRect.rect.height;
 
         RectTransform prefabRect = nodePrefab.GetComponent<RectTransform>();
-        nodeRadius = prefabRect.rect.width / 2f; // 26.5 for 53x53 prefab
+        nodeRadius = prefabRect.rect.width / 2f;
+
+        float containerScale = nodeContainer.lossyScale.x;
+        float nodeDiameterScaled = prefabRect.rect.width * containerScale;
+        int totalNodes = correctSequence.Count;
+
+        // usable area inside margins (before you compute xMin/xMax)
+        float usableWidth = Mathf.Max(1f, width - 2f * screenMargin - nodeDiameterScaled);
+        float usableHeight = Mathf.Max(1f, height - 2f * screenMargin - nodeDiameterScaled);
+        float usableArea = usableWidth * usableHeight;
+        float cellSize = Mathf.Sqrt(usableArea / Mathf.Max(1, totalNodes));
+
+        // compute recommended distances
+        float padding = 8f * containerScale;
+        float minBasedOnNode = nodeDiameterScaled + padding;
+        float suggestedMin = Mathf.Max(minBasedOnNode, 0.8f * cellSize);
+        float suggestedMax = Mathf.Max(suggestedMin + 20f, 1.2f * cellSize);
+
+        // clamp attempts
+        int suggestedAttempts = Mathf.Clamp(totalNodes * 500, 1000, 10000);
+
+        // If inspector settings are smaller than suggested, override (log so you can see)
+        if (minDistance < suggestedMin * 0.9f)
+        {
+            Debug.Log($"TrailGenerator: overriding minDistance {minDistance} -> {suggestedMin:F0}");
+            minDistance = suggestedMin;
+        }
+        if (maxDistance < minDistance + 1f)
+        {
+            Debug.Log($"TrailGenerator: overriding maxDistance {maxDistance} -> {suggestedMax:F0}");
+            maxDistance = suggestedMax;
+        }
+        if (maxAttempts < 100)
+        {
+            Debug.Log($"TrailGenerator: adjusting maxAttempts {maxAttempts} -> {suggestedAttempts}");
+            maxAttempts = suggestedAttempts;
+        }
+
+        // set conservative runtime spacing (use this when checking collisions)
+        float runtimeMinNodeSpacing = Mathf.Max(nodeDiameterScaled + padding, nodeRadius * 2f + 8f);
 
         float xMin = -width / 2 + screenMargin;
         float xMax = width / 2 - screenMargin;
@@ -56,8 +95,8 @@ public class TrailGenerator : MonoBehaviour
 
         List<Vector2> positions = new List<Vector2>();
 
-        float minNodeSpacing = nodeRadius * 3f; // ~80 px
-        float safeRadius = nodeRadius * 1.2f;   // ~32 px, path won't pass through nodes
+        float minNodeSpacing = nodeRadius * 3f;
+        float safeRadius = nodeRadius * 1.2f;
 
         for (int i = 0; i < correctSequence.Count; i++)
         {
@@ -74,7 +113,7 @@ public class TrailGenerator : MonoBehaviour
                 }
                 else
                 {
-                    float distance = (minDistance + maxDistance) / 2f; // fixed spacing
+                    float distance = (minDistance + maxDistance) / 2f;
                     Vector2 prev = positions[i - 1];
                     spawnPos = prev + new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)) * distance;
                     spawnPos.x = Mathf.Clamp(spawnPos.x, xMin, xMax);
@@ -83,7 +122,7 @@ public class TrailGenerator : MonoBehaviour
 
                 valid = true;
 
-                // 1. Ensure node is not too close to any other node
+
                 foreach (var pos in positions)
                 {
                     if (Vector2.Distance(pos, spawnPos) < minNodeSpacing)
@@ -93,7 +132,7 @@ public class TrailGenerator : MonoBehaviour
                     }
                 }
 
-                // 2. Check path intersections
+
                 if (valid && i > 0)
                 {
                     Vector2 newStart = positions[i - 1];
@@ -114,7 +153,7 @@ public class TrailGenerator : MonoBehaviour
                     }
                 }
 
-                // 3. Check safe distance from all nodes (line-circle check)
+
                 if (valid && i > 0)
                 {
                     Vector2 lineStart = positions[i - 1];
@@ -122,7 +161,7 @@ public class TrailGenerator : MonoBehaviour
 
                     foreach (var nodePos in positions)
                     {
-                        if (nodePos == lineStart) continue; // skip start node
+                        if (nodePos == lineStart) continue;
                         if (DistancePointToLineSegment(lineStart, lineEnd, nodePos) < safeRadius)
                         {
                             valid = false;
@@ -142,7 +181,7 @@ public class TrailGenerator : MonoBehaviour
 
             positions.Add(spawnPos);
 
-            // Instantiate node
+
             GameObject obj = Instantiate(nodePrefab, nodeContainer);
             RectTransform rt = obj.GetComponent<RectTransform>();
             rt.anchoredPosition = spawnPos;
@@ -153,7 +192,7 @@ public class TrailGenerator : MonoBehaviour
         }
     }
 
-    // Helper function: distance from point P to line segment AB
+
     float DistancePointToLineSegment(Vector2 A, Vector2 B, Vector2 P)
     {
         Vector2 AP = P - A;
@@ -165,7 +204,7 @@ public class TrailGenerator : MonoBehaviour
         return Vector2.Distance(P, closest);
     }
 
-    // Line intersection helpers
+
     bool LinesIntersect(Vector2 A, Vector2 B, Vector2 C, Vector2 D)
     {
         return (CCW(A, C, D) != CCW(B, C, D)) && (CCW(A, B, C) != CCW(A, B, D));

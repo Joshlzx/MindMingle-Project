@@ -6,11 +6,11 @@ public class PlayerProfile
 {
     public string playerName;
 
-    // Overall quiz totals
+    
     public int totalQuizQuestions;
     public int totalQuizCorrect;
 
-    // All attempts for different games
+    
     public List<QuizAttemptData> quizAttempts = new List<QuizAttemptData>();
     public List<SimonAttemptData> simonAttempts = new List<SimonAttemptData>();
     public List<RhythmAttemptData> rhythmAttempts = new List<RhythmAttemptData>();
@@ -31,9 +31,9 @@ public class PlayerProfile
         public string dateTime;
         public int totalQuestions;
         public int correctAnswers;
-        public int themeID; // NEW: stores the theme
+        public int themeID; 
 
-        // Constructor with theme
+        
         public QuizAttemptData(int total, int correct, int theme)
         {
             totalQuestions = total;

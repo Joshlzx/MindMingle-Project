@@ -1979,6 +1979,48 @@ MonoBehaviour:
     - {fileID: 8957324059118975939, guid: 0fa4ec251cac56649b9c3b3dd7157376, type: 3}
     - {fileID: 8234112908468777668, guid: f54c3216525ef984491907180d69f28e, type: 3}
     CorrectAnswer: 4
+  - Question: What do you use to wash your hand?
+    Answers:
+    - {fileID: 1678447673956482535, guid: 598d4f1bd4818f6429585e4d519afe4a, type: 3}
+    - {fileID: 7870554701135068350, guid: 3e395a05bdf3dc8419ab147dd6068bc9, type: 3}
+    - {fileID: -7773364024041597499, guid: 98f00cc26f35d00478ed1f826c58a9f7, type: 3}
+    - {fileID: -4668227323012713794, guid: c0702c048bf3002468c9732b87dbe964, type: 3}
+    CorrectAnswer: 1
+  - Question: What did people use before mobile phones to make calls at home?
+    Answers:
+    - {fileID: -7274910813245213016, guid: 9be61ac4f39fe8641a9fd470b5ff0a5f, type: 3}
+    - {fileID: 4752372017932979432, guid: a7d03ccd36fcab840be920e38a57477d, type: 3}
+    - {fileID: 6625029368085309136, guid: b36bdc7b57ed49c43ab2e4f30aadf5c6, type: 3}
+    - {fileID: -7831834614748880708, guid: a36734235055e564ab7d1b3d0b230018, type: 3}
+    CorrectAnswer: 2
+  - Question: What do you do to clothes when they are dirty?
+    Answers:
+    - {fileID: -6128539358149561950, guid: 0a3ae4ec4561ede4fbb0390882afcd46, type: 3}
+    - {fileID: 5055297531225710034, guid: 45214055e36290d4fb245ef7ccd9e5f2, type: 3}
+    - {fileID: 8665878080581757273, guid: 418c2b4310b227f48a6c004165c79f04, type: 3}
+    - {fileID: -4638178355200210348, guid: eb364700ded285b4a9975cea0a25de16, type: 3}
+    CorrectAnswer: 3
+  - Question: Which of these would you find in a bedroom?
+    Answers:
+    - {fileID: -2648058217119586101, guid: 9126354f36faf0d4ab9bc9034f9cdc24, type: 3}
+    - {fileID: 546160152358122168, guid: 5cbf6ad046a5ce94d9767650d7b36b3e, type: 3}
+    - {fileID: 8420485207997377320, guid: 6a78bd568dd14df41ae760d9e0221fdf, type: 3}
+    - {fileID: 2901945170281094077, guid: 25a4147128e550540a41527f3eb14ac3, type: 3}
+    CorrectAnswer: 4
+  - Question: What do you use to pay for things at a shop today?
+    Answers:
+    - {fileID: 6254593807821455677, guid: 5119748446686bf4ba37db53e331acd0, type: 3}
+    - {fileID: 6668346739609897993, guid: dfa23cd31651fa6498fef908483fd1b3, type: 3}
+    - {fileID: 626097528910884893, guid: 233c36234ce5a53499f8bcd458cffdb3, type: 3}
+    - {fileID: 6561138780007509843, guid: c3faecff1b4cda944b79f64968659fdb, type: 3}
+    CorrectAnswer: 2
+  - Question: What did families gather around in the evening before smartphones?
+    Answers:
+    - {fileID: -5776590601548206554, guid: e7a6d73c25b425347991a5bbaa1d1fe0, type: 3}
+    - {fileID: -3382637633492864493, guid: bc3f87475fbe484418b31fc2c3d9e4ab, type: 3}
+    - {fileID: 5962689061485224524, guid: 3abbc984ba1d3b544b59f2b1e9f209c0, type: 3}
+    - {fileID: -254455751072573816, guid: 8c41261ee5169934c865e6c16d553cb3, type: 3}
+    CorrectAnswer: 3
   currentQuestion: 1
   currentThemeID: 2
   Quizpanel: {fileID: 1953171275}

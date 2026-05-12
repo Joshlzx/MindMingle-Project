@@ -34,7 +34,7 @@ public class HintManager : MonoBehaviour
     {
         if (mazeGenerator == null || playerObject == null || mazeGenerator.CurrentGoalNode == null) return;
 
-        // Disable hint button while path is active
+        
         if (hintButton != null)
             hintButton.interactable = false;
 
@@ -51,7 +51,7 @@ public class HintManager : MonoBehaviour
 
         if (startNode == null || goalNode == null) yield break;
 
-        // BFS to find shortest path
+        
         Queue<MazeNode> queue = new Queue<MazeNode>();
         Dictionary<MazeNode, MazeNode> cameFrom = new Dictionary<MazeNode, MazeNode>();
         HashSet<MazeNode> visited = new HashSet<MazeNode>();
@@ -75,7 +75,7 @@ public class HintManager : MonoBehaviour
             }
         }
 
-        // Reconstruct path
+        
         MazeNode temp = goalNode;
         while (temp != startNode)
         {
@@ -86,7 +86,7 @@ public class HintManager : MonoBehaviour
         currentHintPath.Add(startNode);
         currentHintPath.Reverse();
 
-        // Gradually highlight nodes
+       
         foreach (MazeNode node in currentHintPath)
         {
             node.Highlight(true);
@@ -95,7 +95,7 @@ public class HintManager : MonoBehaviour
 
         yield return new WaitForSeconds(visibleTime);
 
-        // Gradually reset highlight
+        
         foreach (MazeNode node in currentHintPath)
         {
             node.Highlight(false);

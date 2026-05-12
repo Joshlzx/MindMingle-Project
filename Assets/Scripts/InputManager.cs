@@ -8,7 +8,7 @@ public class ESP32InputManager : MonoBehaviour
 
     SerialPort serialPort;
 
-    // One-shot press flags per frame
+    
     private Dictionary<string, bool> buttonPressed = new Dictionary<string, bool>()
     {
         { "Z", false },
@@ -29,7 +29,7 @@ public class ESP32InputManager : MonoBehaviour
 
     void Start()
     {
-        serialPort = new SerialPort("COM5", 115200); // Change COM port
+        serialPort = new SerialPort("COM5", 115200); 
         serialPort.ReadTimeout = 50;
         try
         {
@@ -44,14 +44,14 @@ public class ESP32InputManager : MonoBehaviour
 
     void Update()
     {
-        // Reset one-shot flags at the start of the frame
+        
         List<string> keys = new List<string>(buttonPressed.Keys);
         foreach (var key in keys)
         {
             buttonPressed[key] = false;
         }
 
-        // --- Read ESP32 serial input ---
+        
         if (serialPort != null && serialPort.IsOpen)
         {
             try
@@ -75,11 +75,11 @@ public class ESP32InputManager : MonoBehaviour
             }
         }
 
-        // --- Check keyboard input ---
+        
         CheckKeyboardInput();
     }
 
-    // Handle a single ESP32 input character
+    
     void HandleInput(string data)
     {
         switch (data)
@@ -94,7 +94,7 @@ public class ESP32InputManager : MonoBehaviour
         }
     }
 
-    // Map PC keyboard presses to the same buttons
+    
     void CheckKeyboardInput()
     {
         if (Input.GetKeyDown(KeyCode.Z)) buttonPressed["Z"] = true;
@@ -103,7 +103,7 @@ public class ESP32InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.V)) buttonPressed["V"] = true;
     }
 
-    // Public method like Input.GetKeyDown
+    
     public bool GetKeyDown(string key)
     {
         return buttonPressed.ContainsKey(key) && buttonPressed[key];

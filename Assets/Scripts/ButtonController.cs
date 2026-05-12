@@ -7,9 +7,9 @@ public class ButtonController : MonoBehaviour
     public Sprite pressedImage;
     public KeyCode keyToPress;
 
-    // Track ESP32 presses
+    
     private int espHoldFrames = 0;
-    private const int holdDuration = 3; // frames to hold ESP32 press for visibility
+    private const int holdDuration = 3; 
 
     void Start()
     {
@@ -20,21 +20,21 @@ public class ButtonController : MonoBehaviour
     {
         string keyString = keyToPress.ToString();
 
-        // --- Keyboard input ---
-        bool keyboardPressed = Input.GetKey(keyToPress); // true while held
+        
+        bool keyboardPressed = Input.GetKey(keyToPress); 
 
-        // --- ESP32 input ---
+        
         if (ESP32InputManager.Instance.GetKeyDown(keyString))
         {
-            espHoldFrames = holdDuration; // start holding sprite
+            espHoldFrames = holdDuration; 
         }
-        if (espHoldFrames > 0) espHoldFrames--; // countdown
+        if (espHoldFrames > 0) espHoldFrames--; 
         bool espPressed = espHoldFrames > 0;
 
-        // --- Final pressed state ---
+        
         bool isPressed = keyboardPressed || espPressed;
 
-        // --- Update sprite ---
+        
         theSR.sprite = isPressed ? pressedImage : defaultImage;
     }
 }

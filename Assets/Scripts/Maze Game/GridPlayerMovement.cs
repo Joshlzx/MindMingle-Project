@@ -25,7 +25,6 @@ public class GridPlayerMovement : MonoBehaviour
         legacyMovement = GetComponent<PlayerMovement>();
         if (legacyMovement != null)
         {
-            Debug.LogWarning("Disabling legacy PlayerMovement to avoid conflicts with GridPlayerMovement. Remove it from the prefab if not needed.");
             legacyMovement.enabled = false;
         }
     }
@@ -137,17 +136,17 @@ public class GridPlayerMovement : MonoBehaviour
         int wallIndexToCheck;
         switch (direction)
         {
-            case 0: wallIndexToCheck = 1; break; // left -> left wall
-            case 1: wallIndexToCheck = 0; break; // right -> right wall
-            case 2: wallIndexToCheck = 3; break; // down -> down wall
-            case 3: wallIndexToCheck = 2; break; // up -> up wall
+            case 0: wallIndexToCheck = 1; break; 
+            case 1: wallIndexToCheck = 0; break;
+            case 2: wallIndexToCheck = 3; break; 
+            case 3: wallIndexToCheck = 2; break; 
             default: wallIndexToCheck = -1; break;
         }
 
-        // If wall logic blocks movement, do not proceed
+       
         if (wallIndexToCheck >= 0 && currentNode.IsWallActive(wallIndexToCheck))
         {
-            // debug exact wall GameObject and its active state
+            
             var wallObj = currentNode.GetWallObject(wallIndexToCheck);
             Debug.Log($"TryMove: Blocked by wall (logical). direction={direction} wallIndex={wallIndexToCheck} node={currentNode.name} wallObj={(wallObj!=null?wallObj.name:"null")} active={(wallObj!=null?wallObj.activeSelf.ToString():"n/a")}");
             return null;

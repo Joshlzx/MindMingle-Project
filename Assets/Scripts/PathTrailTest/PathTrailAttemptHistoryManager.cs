@@ -8,10 +8,10 @@ using static PlayerProfile;
 public class PathTrailAttemptHistoryManager : MonoBehaviour
 {
     [Header("UI References")]
-    public Transform attemptsContent;      // Container for current player's attempts
+    public Transform attemptsContent;      
     public GameObject attemptEntryPrefab;
 
-    public Transform highscoresContent;    // Container for all players' best attempts
+    public Transform highscoresContent;    
     public GameObject highscoreEntryPrefab;
 
     private void Start()
@@ -20,7 +20,7 @@ public class PathTrailAttemptHistoryManager : MonoBehaviour
         ShowAllPlayersHighscores();
     }
 
-    // -------------------- Current Player Attempts --------------------
+   
     void ShowCurrentPlayerAttempts()
     {
         var profile = ProfileManager.Instance?.currentProfile;
@@ -30,16 +30,16 @@ public class PathTrailAttemptHistoryManager : MonoBehaviour
 
         if (profile == null || profile.pathTrailAttempts == null) return;
 
-        // Sort by date (latest first). If dates are equal or unparsable, fall back to grade/time/errors sorting.
+       
         profile.pathTrailAttempts.Sort((a, b) =>
         {
             DateTime da = ParseAttemptDate(a.dateTime);
             DateTime db = ParseAttemptDate(b.dateTime);
 
-            int dateCmp = db.CompareTo(da); // descending: newer first
+            int dateCmp = db.CompareTo(da); 
             if (dateCmp != 0) return dateCmp;
 
-            // fallback to existing grade-based comparison for stable ordering
+            
             return ComparePathTrailAttemptsByGrade(a, b);
         });
 
@@ -56,7 +56,7 @@ public class PathTrailAttemptHistoryManager : MonoBehaviour
         }
     }
 
-    // -------------------- All Players Highscores --------------------
+    
     void ShowAllPlayersHighscores()
     {
         foreach (Transform child in highscoresContent)
@@ -68,18 +68,21 @@ public class PathTrailAttemptHistoryManager : MonoBehaviour
 
         foreach (var p in ProfileManager.Instance.profiles)
         {
-            PathTrailAttemptData best = null;
-            if (p.pathTrailAttempts != null && p.pathTrailAttempts.Count > 0)
+            // Skip profiles that have no attempts for this game
+            if (p.pathTrailAttempts == null || p.pathTrailAttempts.Count == 0)
+                continue;
+
+            PathTrailAttemptData best = p.pathTrailAttempts[0];
+            foreach (var a in p.pathTrailAttempts)
             {
-                best = p.pathTrailAttempts[0];
-                foreach (var a in p.pathTrailAttempts)
-                {
-                    if (IsBetterPathTrailAttempt(a, best)) best = a;
-                }
+                if (IsBetterPathTrailAttempt(a, best)) best = a;
             }
 
             bestAttempts.Add((p.playerName, best));
         }
+
+        // If no players with attempts, nothing to show
+        if (bestAttempts.Count == 0) return;
 
         // Sort: valid grades first by grade → errors → time, null/empty grades last
         bestAttempts.Sort((x, y) =>
@@ -100,7 +103,7 @@ public class PathTrailAttemptHistoryManager : MonoBehaviour
 
             if (entryData.bestAttempt == null)
             {
-                // no attempt data, just show player name
+                // This branch should not occur because we filtered earlier, but keep fallback
                 entry.GetComponent<TextMeshProUGUI>().text =
                     $"<b><color=#000000>{entryData.playerName}</color></b>";
                 continue;
@@ -117,7 +120,7 @@ public class PathTrailAttemptHistoryManager : MonoBehaviour
         }
     }
 
-    // -------------------- Helper Methods --------------------
+    
     Color GetGradeColor(string grade)
     {
         switch (grade)
@@ -126,7 +129,7 @@ public class PathTrailAttemptHistoryManager : MonoBehaviour
             case "Good": return new Color(0f, 0.4f, 0.8f);
             case "Average": return new Color(1f, 0.65f, 0f);
             case "Poor": return new Color(0.8f, 0f, 0f);
-            default: return Color.gray; // Null/invalid grade
+            default: return Color.gray; 
         }
     }
 
@@ -155,20 +158,20 @@ public class PathTrailAttemptHistoryManager : MonoBehaviour
         return a.completionTime < b.completionTime;
     }
 
-    // Parse date string robustly. Returns DateTime.MinValue when unparsable.
+    
     DateTime ParseAttemptDate(string dateString)
     {
         if (string.IsNullOrEmpty(dateString)) return DateTime.MinValue;
 
-        // Common formats used across the project; add more as needed.
+       
         string[] formats = new[]
         {
             "dd MMM yyyy HH:mm",
             "dd MMM yyyy H:mm",
             "yyyy-MM-dd HH:mm:ss",
             "yyyy-MM-ddTHH:mm:ss",
-            "o",               // ISO 8601 round-trip
-            "G", "g",          // general formats
+            "o",               
+            "G", "g",          
             "MM/dd/yyyy HH:mm",
             "M/d/yyyy H:mm"
         };

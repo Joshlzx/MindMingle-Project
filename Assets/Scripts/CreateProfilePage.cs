@@ -9,8 +9,8 @@ public class CreateProfilePage : MonoBehaviour
     public Button saveButton;
     public Button backButton;
 
-    public static int lastPage = 0;          // stores the page number when returning
-    public static int profilesPerPage = 4;   // make static so we can access from CreateProfilePage
+    public static int lastPage = 0;         
+    public static int profilesPerPage = 4;   
 
 
     void Start()
@@ -30,20 +30,20 @@ public class CreateProfilePage : MonoBehaviour
             return;
         }
 
-        // 1️⃣ Create the new profile
+        
         ProfileManager.Instance.CreateProfile(playerName);
         ProfileManager.Instance.SaveProfiles();
 
-        // 2️⃣ Calculate which page this new profile should appear on
+        
         int newProfileIndex = ProfileManager.Instance.profiles.Count - 1; // last profile
         ProfileSelectManager.lastPage = newProfileIndex / ProfileSelectManager.profilesPerPage;
 
-        // 3️⃣ Go back to ProfileSelectScene
+        
         SceneManager.LoadScene("ProfileSelectionScene");
     }
     public void GoBackToProfileSelect()
     {
-        // Simply load the profile selection scene
+        
         SceneManager.LoadScene("ProfileSelectionScene");
 
     }

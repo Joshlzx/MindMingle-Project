@@ -60,9 +60,9 @@ public class ProfileManager : MonoBehaviour
     #region Saving & Loading
     public void SaveProfiles()
     {
-        // Wrap list into a serializable wrapper
+        
         PlayerProfileListWrapper wrapper = new PlayerProfileListWrapper(profiles);
-        string json = JsonUtility.ToJson(wrapper, true); // prettyPrint for easier debugging
+        string json = JsonUtility.ToJson(wrapper, true); 
         PlayerPrefs.SetString(ProfilesKey, json);
         PlayerPrefs.Save();
 

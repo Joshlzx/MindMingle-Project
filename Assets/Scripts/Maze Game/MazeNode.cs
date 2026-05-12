@@ -13,11 +13,11 @@ public class MazeNode : MonoBehaviour
     [SerializeField] private GameObject[] walls;
     [SerializeField] private MeshRenderer floor;
 
-    private Color originalColor;      // stores default color of this node
+    private Color originalColor;      
     private Color availableColor = Color.red;
-    private Color currentColor = Color.purple;    // no yellow spam
+    private Color currentColor = Color.purple;    
     private Color completedColor = Color.white;
-    private Color hintColor = Color.yellow; // color for hint path (eye-friendly)
+    private Color hintColor = Color.yellow; 
 
     private void Awake()
     {
@@ -53,10 +53,10 @@ public class MazeNode : MonoBehaviour
                 break;
         }
 
-        originalColor = floor.material.color; // update original color for hint reset
+        originalColor = floor.material.color; 
     }
 
-    /// <summary>Highlights this node for hints.</summary>
+    
     public void Highlight(bool on)
     {
         if (floor == null) return;
@@ -64,10 +64,10 @@ public class MazeNode : MonoBehaviour
         if (on)
             floor.material.color = hintColor;
         else
-            floor.material.color = originalColor; // reset to the state color (Available/Completed/Current)
+            floor.material.color = originalColor; 
     }
 
-    /// <summary>Checks if a wall is active.</summary>
+    
     public bool IsWallActive(int wallIndex)
     {
         if (wallIndex >= 0 && wallIndex < walls.Length)
@@ -75,7 +75,7 @@ public class MazeNode : MonoBehaviour
         return false;
     }
 
-    // Expose a wall GameObject for debugging / inspection
+    
     public GameObject GetWallObject(int index)
     {
         if (walls == null) return null;
@@ -84,7 +84,7 @@ public class MazeNode : MonoBehaviour
         return null;
     }
 
-    // Optional helper to log all wall names & active states (call from other scripts for diagnostics)
+  
     public void DebugLogWalls()
     {
         if (walls == null)

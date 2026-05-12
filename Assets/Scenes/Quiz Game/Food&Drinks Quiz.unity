@@ -1977,7 +1977,49 @@ MonoBehaviour:
     - {fileID: -7657930314063030010, guid: 047df977dba9e46488371d765e667634, type: 3}
     - {fileID: 532282208441007744, guid: f10abf2ebd71c0e49a3929c43f33df96, type: 3}
     - {fileID: -1203174158840223747, guid: 9df3762e0e2243942876aedca17e4bd5, type: 3}
-    - {fileID: 8420485207997377320, guid: 7ef363c21fbb9d748b0e2a052b53d5ea, type: 3}
+    - {fileID: 6668346739609897993, guid: 2a37b40519e2d6e4f9c71a76c46e20df, type: 3}
+    CorrectAnswer: 3
+  - Question: Which of these is a vegetable?
+    Answers:
+    - {fileID: 3573036208370857778, guid: 3a58db2b3a1904741a3e1e1e0e134c03, type: 3}
+    - {fileID: 7870554701135068350, guid: f85a0e9c8108c7843bc5dcdaee25310d, type: 3}
+    - {fileID: -2496040466669729985, guid: 9eb7e70c856549645bc7c4ed4e7a8be5, type: 3}
+    - {fileID: -2227294742669426013, guid: 1dcf5f2176599924b9273f0d4fd03e5d, type: 3}
+    CorrectAnswer: 4
+  - Question: What sweet treat is often eaten at birthday parties?
+    Answers:
+    - {fileID: 8665878080581757273, guid: d7f34cc03964e4843b8bba5d5ac32b8e, type: 3}
+    - {fileID: -6128539358149561950, guid: a5c6b1905d82be247907754d155705f0, type: 3}
+    - {fileID: 5055297531225710034, guid: 5fc758dabd7006d4cb426862becba160, type: 3}
+    - {fileID: 305273635224563754, guid: 446de895a83924b4e89f3afa38343d05, type: 3}
+    CorrectAnswer: 3
+  - Question: What drink is traditionally served at Chinese dim sum?
+    Answers:
+    - {fileID: -5776590601548206554, guid: 094a9100269c22a48b30c08bcbc487bc, type: 3}
+    - {fileID: -254455751072573816, guid: 5dc1ad307edba294a85bcefe452958bb, type: 3}
+    - {fileID: -3382637633492864493, guid: c14caa392dddee940acd8c6a6fae0cb0, type: 3}
+    - {fileID: 6254593807821455677, guid: 83939d7d0972eb148985b110a39de95d, type: 3}
+    CorrectAnswer: 2
+  - Question: What is butter made from?
+    Answers:
+    - {fileID: 1176392441708641437, guid: 71de39cb92241624593993caffb3b8a5, type: 3}
+    - {fileID: -4424639891517422229, guid: fc829436be535d5419ec4b65f0d95be3, type: 3}
+    - {fileID: -5308307381812988933, guid: 33f2ee4d951d6bd4fb6b19e4181eed7c, type: 3}
+    - {fileID: -2982071049208091339, guid: 1309fa17386ba0842837bd6e1e6116ab, type: 3}
+    CorrectAnswer: 4
+  - Question: Which of these is a type of soup?
+    Answers:
+    - {fileID: -4638178355200210348, guid: 316df6952a75a934ca84cae448178557, type: 3}
+    - {fileID: -4444603823457224876, guid: 3f98bbdc981dd884fa135b34d7c89b59, type: 3}
+    - {fileID: 6738700726169067624, guid: 106930f0908430a47b934a7ba37ced43, type: 3}
+    - {fileID: -3268371441733247950, guid: c83e083acd3bf114b97e5f4cd22fffe7, type: 3}
+    CorrectAnswer: 1
+  - Question: Which food comes from a chicken?
+    Answers:
+    - {fileID: 2804057075166964423, guid: bf34828cca483174aac8d45a7c6c5609, type: 3}
+    - {fileID: -5651872614466913136, guid: 3ff3bd7ebacd39945a7e65686ee49236, type: 3}
+    - {fileID: -4424639891517422229, guid: fc829436be535d5419ec4b65f0d95be3, type: 3}
+    - {fileID: -5308307381812988933, guid: 33f2ee4d951d6bd4fb6b19e4181eed7c, type: 3}
     CorrectAnswer: 3
   currentQuestion: 1
   currentThemeID: 1

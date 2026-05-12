@@ -33,7 +33,7 @@ public class RhythmChartEditor : MonoBehaviour
 
     void Update()
     {
-        // Start music
+        
         if (!started && Input.GetKeyDown(KeyCode.Space))
         {
             music.Play();
@@ -42,16 +42,16 @@ public class RhythmChartEditor : MonoBehaviour
 
         if (!started) return;
 
-        // Lane input
+      
         CheckLane(KeyCode.A, 0);
         CheckLane(KeyCode.S, 1);
         CheckLane(KeyCode.D, 2);
         CheckLane(KeyCode.F, 3);
 
-        // Undo last note
+      
         if (Input.GetKeyDown(KeyCode.Backspace)) UndoLastNote();
 
-        // Save chart
+        
         if (Input.GetKeyDown(KeyCode.P)) SaveChart();
     }
 
@@ -64,7 +64,7 @@ public class RhythmChartEditor : MonoBehaviour
 
         float spawnTime = hitTime - travelTime;
 
-        // Spawn preview immediately at spawnY
+        
         Vector3 pos = laneSpawnPoints[lane].position;
         pos.y = spawnY;
 
@@ -108,3 +108,4 @@ public class RhythmChartEditor : MonoBehaviour
         return Mathf.Round(time / snapLength) * snapLength;
     }
 }
+//How to use Chart Editor: Space to start, A/S/D/F to place notes in lanes, Backspace to undo last note, P to save chart. Then, load the saved JSON in your rhythm game to play the chart.

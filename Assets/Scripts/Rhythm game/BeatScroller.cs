@@ -14,7 +14,7 @@ public class BeatScroller : MonoBehaviour
 
         float elapsed = music.time - spawnTime;
 
-        // Move note from spawnY to hitY based on elapsed time
+       
         transform.position = new Vector3(
             transform.position.x,
             spawnY - elapsed * noteSpeed,

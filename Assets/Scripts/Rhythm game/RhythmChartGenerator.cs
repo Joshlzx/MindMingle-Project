@@ -17,7 +17,7 @@ public class RhythmChartGenerator : MonoBehaviour
     public float hitY = -3f;
 
     [Header("Audio")]
-    public AudioSource music; // assign, but do NOT play automatically
+    public AudioSource music; 
 
     public void GenerateNotes()
     {
@@ -31,7 +31,7 @@ public class RhythmChartGenerator : MonoBehaviour
         RhythmChart chart = JsonUtility.FromJson<RhythmChart>(File.ReadAllText(path));
         float travelTime = Mathf.Abs(spawnY - hitY) / noteSpeed;
 
-        // Rotation for each lane: Left, Up, Down, Right
+        
         float[] laneRotations = { 180f, 90f, -90f, 0f };
 
         foreach (var note in chart.notes)
@@ -39,7 +39,7 @@ public class RhythmChartGenerator : MonoBehaviour
             Vector3 pos = laneSpawnPoints[note.lane].position;
             pos.y = spawnY;
 
-            // Apply rotation based on lane
+            
             Quaternion rotation = Quaternion.Euler(0f, 0f, laneRotations[note.lane]);
 
             GameObject noteObj = Instantiate(

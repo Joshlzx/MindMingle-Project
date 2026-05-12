@@ -57,13 +57,13 @@ public class PathNode : MonoBehaviour
 
     IEnumerator PulseEffect()
     {
-        float speed = 2f; // pulse speed
+        float speed = 2f; 
 
-        Color baseColor = Color.yellow;       // high-contrast color
-        Color pulseColor = new Color(1f, 0.6f, 0f); // orange-like for strong pulse
+        Color baseColor = Color.yellow;       
+        Color pulseColor = new Color(1f, 0.6f, 0f); 
 
         Vector3 originalScale = mainCircle.rectTransform.localScale;
-        Vector3 pulseScale = originalScale * 1.2f; // slightly larger for visibility
+        Vector3 pulseScale = originalScale * 1.2f; 
 
         while (true)
         {

@@ -1979,6 +1979,48 @@ MonoBehaviour:
     - {fileID: -1801765248062732837, guid: 198e8b276ba3d59489d7b936ed345946, type: 3}
     - {fileID: 8665878080581757273, guid: f2aeea18a81a3dc468bbafaae37679bd, type: 3}
     CorrectAnswer: 4
+  - Question: Which object is used when it rains?
+    Answers:
+    - {fileID: 1678447673956482535, guid: 6edb802ab1a6ec04d8b9a2a8bb136964, type: 3}
+    - {fileID: 8957324059118975939, guid: f07496f79ef39e14098466aca90ea9ae, type: 3}
+    - {fileID: 4752372017932979432, guid: 694323f68e883f141870cadb0f21a661, type: 3}
+    - {fileID: -7773364024041597499, guid: 317cfb94c829f6a4c87d34800ab37a30, type: 3}
+    CorrectAnswer: 1
+  - Question: Which one is used to unlock doors?
+    Answers:
+    - {fileID: -6462167122760205869, guid: 350320a10295b1446b346e0ba3251921, type: 3}
+    - {fileID: 546160152358122168, guid: 0f522bce257486347aa54f6e328d01aa, type: 3}
+    - {fileID: 2901945170281094077, guid: ffe0f76b8d536464cb410f528c523e1c, type: 3}
+    - {fileID: -2648058217119586101, guid: 600398f45c7a6054ca48c887c5d4f45d, type: 3}
+    CorrectAnswer: 4
+  - Question: Which object helps you see better if your eyesight is weak?
+    Answers:
+    - {fileID: -1211429828573041885, guid: 7f23ee880f00610449ed3abf675070b4, type: 3}
+    - {fileID: -885068298114967867, guid: f7dc8cfde7aadc74f835a5f8723c4879, type: 3}
+    - {fileID: 532282208441007744, guid: c1fa77c76e6d6a744b13abc90e6a181b, type: 3}
+    - {fileID: 1678447673956482535, guid: 6edb802ab1a6ec04d8b9a2a8bb136964, type: 3}
+    CorrectAnswer: 2
+  - Question: Which one is used for cooking?
+    Answers:
+    - {fileID: 6737200257290448990, guid: ffaafbc994cc05c429394da0ae26cdac, type: 3}
+    - {fileID: -4638178355200210348, guid: fd6f6539f48414a4f956877e1bf5df14, type: 3}
+    - {fileID: -2838672241945654444, guid: 375eff1e4c93e2d4e8670398252af09d, type: 3}
+    - {fileID: 8420485207997377320, guid: 52bbad6159d1638489f4c0e815ef7177, type: 3}
+    CorrectAnswer: 1
+  - Question: Which object is used for sewing?
+    Answers:
+    - {fileID: -2648058217119586101, guid: 600398f45c7a6054ca48c887c5d4f45d, type: 3}
+    - {fileID: -5776590601548206554, guid: a2962977bece5724aaa905f308314390, type: 3}
+    - {fileID: -3382637633492864493, guid: bd32ab5535becdc429cac4539b5ed905, type: 3}
+    - {fileID: -254455751072573816, guid: bcd9c55530eac74488906bbe0122fbbb, type: 3}
+    CorrectAnswer: 4
+  - Question: Which item keeps your food cold?
+    Answers:
+    - {fileID: 6737200257290448990, guid: ffaafbc994cc05c429394da0ae26cdac, type: 3}
+    - {fileID: 626097528910884893, guid: 102c49a68a728b840b4cb7c55a693211, type: 3}
+    - {fileID: 3150272983019787682, guid: 1c53b030d7e8916419ba4a619ddd1423, type: 3}
+    - {fileID: 6254593807821455677, guid: 27503c399475b22499289d6a998d1112, type: 3}
+    CorrectAnswer: 2
   currentQuestion: 1
   currentThemeID: 0
   Quizpanel: {fileID: 1953171275}

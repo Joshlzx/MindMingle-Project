@@ -21,14 +21,14 @@ public class SimonAttemptHistoryManager : MonoBehaviour
         var profile = ProfileManager.Instance?.currentProfile;
         if (profile == null || profile.simonAttempts == null) return;
 
-        // Clear existing entries
+        
         foreach (Transform child in attemptsContent)
             Destroy(child.gameObject);
 
-        // Sort attempts by dateTime descending (latest first)
+        
         profile.simonAttempts.Sort((a, b) => System.DateTime.Parse(b.dateTime).CompareTo(System.DateTime.Parse(a.dateTime)));
 
-        // Populate entries
+        
         foreach (PlayerProfile.SimonAttemptData attempt in profile.simonAttempts)
         {
             GameObject entry = Instantiate(attemptEntryPrefab, attemptsContent);
@@ -48,7 +48,7 @@ public class SimonAttemptHistoryManager : MonoBehaviour
 
         if (ProfileManager.Instance == null) return;
 
-        // Step 1: Collect best attempt for each player
+       
         List<(string playerName, PlayerProfile.SimonAttemptData bestAttempt)> bestAttempts = new List<(string, PlayerProfile.SimonAttemptData)>();
 
         foreach (var p in ProfileManager.Instance.profiles)
@@ -67,10 +67,10 @@ public class SimonAttemptHistoryManager : MonoBehaviour
             bestAttempts.Add((p.playerName, best));
         }
 
-        // Step 2: Sort all players by best attempt (highest level → progress → fewest hints)
-        bestAttempts.Sort((x, y) => CompareSimonAttempts(y.bestAttempt, x.bestAttempt)); // descending order
+       
+        bestAttempts.Sort((x, y) => CompareSimonAttempts(y.bestAttempt, x.bestAttempt)); 
 
-        // Step 3: Populate UI
+       
         foreach (var entryData in bestAttempts)
         {
             GameObject entry = Instantiate(highscoreEntryPrefab, highscoresContent);
@@ -83,7 +83,7 @@ public class SimonAttemptHistoryManager : MonoBehaviour
         }
     }
 
-    // Compare two Simon attempts: returns positive if a > b
+  
     int CompareSimonAttempts(PlayerProfile.SimonAttemptData a, PlayerProfile.SimonAttemptData b)
     {
         if (a.levelReached != b.levelReached)
@@ -95,7 +95,7 @@ public class SimonAttemptHistoryManager : MonoBehaviour
 
     bool IsBetterSimonAttempt(PlayerProfile.SimonAttemptData a, PlayerProfile.SimonAttemptData b)
     {
-        // Same logic as CompareSimonAttempts but returns bool
+        
         if (a.levelReached > b.levelReached) return true;
         if (a.levelReached < b.levelReached) return false;
         if (a.progressIntoLevel > b.progressIntoLevel) return true;

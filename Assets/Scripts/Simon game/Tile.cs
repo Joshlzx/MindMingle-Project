@@ -15,13 +15,13 @@ public class Tile : MonoBehaviour
         this.tileId = tileId;
         this.colour = colour;
         spriteRenderer = GetComponent<SpriteRenderer>();
-        // Tiles start off.
+        
         TurnOff();
     }
 
     public void TurnOff()
     {
-        // Darken the original colour.
+        
         spriteRenderer.color = colour * 0.3f;
     }
 
@@ -32,7 +32,7 @@ public class Tile : MonoBehaviour
 
     private void OnMouseDown()
     {
-        // Call a function on the GameManager
+        
         gameManager.PlayLightAndTone(tileId);
     }
 

@@ -12,7 +12,7 @@ public class RhythmAttemptData
     public string dateTime;
     public string playerName;
 
-    // NEW: percentage of notes hit
+    
     public float percentHit => ((normalHits + goodHits + perfectHits) / totalNotes) * 100f;
 
     public RhythmAttemptData(

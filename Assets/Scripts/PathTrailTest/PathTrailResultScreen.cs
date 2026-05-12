@@ -13,7 +13,7 @@ public class PathTrailResultScreen : MonoBehaviour
 
     private void Awake()
     {
-        // Always hide panel at game start
+        
         if (resultPanel != null)
             resultPanel.SetActive(false);
     }

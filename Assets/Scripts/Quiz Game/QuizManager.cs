@@ -27,10 +27,10 @@ public class QuizManager : MonoBehaviour
 
     void Start()
     {
-        // Copy list so inspector data isn't modified
+        
         QnA = new List<QuestionsAndAnswers>(QnA);
 
-        // Random seed
+        
         Random.InitState(System.DateTime.Now.Millisecond);
 
         TotalQuestions = QnA.Count;

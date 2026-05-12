@@ -39,6 +39,13 @@ public class GameManager1 : MonoBehaviour
     public GameObject resultsScreen;
     public Text percentHitText, normalsText, goodsText, perfectsText, missesTexts, rankText, finalScoreText;
 
+    [Header("Pause UI (optional)")]
+    public GameObject pausePanel; // assign a pause overlay in the inspector (optional)
+
+    // runtime suspend state
+    private bool isSuspended = false;
+    private bool wasPlayingBeforeSuspend = false;
+
     public static GameManager1 instance;
 
     void Start()
@@ -53,6 +60,9 @@ public class GameManager1 : MonoBehaviour
 
     void Update()
     {
+        // when suspended (lost focus / paused) freeze gameplay logic
+        if (isSuspended) return;
+
         if (!startPlaying)
         {
             // Start game on any key
@@ -68,6 +78,58 @@ public class GameManager1 : MonoBehaviour
         if (!theMusic.isPlaying && !resultsScreen.activeInHierarchy)
         {
             ShowResults();
+        }
+    }
+
+    // Called when the application gains/loses focus (desktop)
+    void OnApplicationFocus(bool hasFocus)
+    {
+        HandleSuspend(!hasFocus);
+    }
+
+    // Called when the application is paused/resumed (mobile / some platforms)
+    void OnApplicationPause(bool isPaused)
+    {
+        HandleSuspend(isPaused);
+    }
+
+    // Centralized suspend/resume logic
+    void HandleSuspend(bool suspend)
+    {
+        if (suspend == isSuspended) return;
+
+        if (suspend)
+        {
+            // going out of focus / pausing
+            isSuspended = true;
+
+            // record whether music was playing so we can resume later
+            if (theMusic != null)
+            {
+                wasPlayingBeforeSuspend = theMusic.isPlaying;
+                if (theMusic.isPlaying) theMusic.Pause();
+            }
+
+            // freeze game time so physics, animations and WaitForSeconds stop
+            Time.timeScale = 0f;
+
+            if (pausePanel != null) pausePanel.SetActive(true);
+        }
+        else
+        {
+            // returning to focus / resuming
+            isSuspended = false;
+
+            // restore time scale first so coroutines / Update run normally
+            Time.timeScale = 1f;
+
+            if (pausePanel != null) pausePanel.SetActive(false);
+
+            // resume audio if it was playing before suspend
+            if (theMusic != null && wasPlayingBeforeSuspend)
+            {
+                theMusic.UnPause();
+            }
         }
     }
 

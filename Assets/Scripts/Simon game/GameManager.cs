@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject playButton;
 
     [Header("Audio Setup")]
-    [SerializeField] private float duration = 0.2f;
+    [SerializeField] private float duration = 0.5f;
     [SerializeField] private AudioSource audioSource;
 
     [Header("UI Elements")]
@@ -45,45 +45,43 @@ public class GameManager : MonoBehaviour
 
     private GameMode gameMode = GameMode.None;
 
-    // For tracking the level
+    
     private List<int> levelTiles;
     private int currentIndex = 0;
 
     void Start()
     {
-        // numTiles is global as we'll use it in lots of places.
+        
         numTiles = numRows * numCols;
         tile = new Tile[numTiles];
 
-        // Create the grid of tiles.
+       
         for (int row = 0; row < numRows; row++)
         {
             for (int col = 0; col < numCols; col++)
             {
                 int index = (row * numCols) + col;
 
-                // Instantiate the tile objects.
+                
                 tile[index] = Instantiate(tilePrefab, gameArea);
                 tile[index].Init(this, index, Color.HSVToRGB((float)index / numTiles, 0.8f, 0.9f));
 
-                // Center the tiles in the game area.
+               
                 float rowStart = (numRows / 2f) - 0.5f;
                 float colStart = (-numCols / 2f) + 0.5f;
                 tile[index].transform.localPosition = new Vector3(colStart + col, rowStart - row, 0f);
             }
         }
 
-        // Scale the tiles to fit our vertical space (6 units)
-        // (If there are too many cols they'll go off the edge).
-        //Changed from 6f to 4f for resizing
+        
         float scale = 4f / numRows; 
         gameArea.localScale = Vector3.one * scale;
 
-        // Start in the menu game mode, with flashing lights and no sound.
+        
         gameMode = GameMode.Menu;
         StartCoroutine(MenuTileAnimation());
 
-        // Disable replay button at start
+        
         replayButton.onClick.AddListener(ReplayCurrentPattern);
         replayButton.gameObject.SetActive(false);
 
@@ -107,9 +105,9 @@ public class GameManager : MonoBehaviour
     {
         while (gameMode == GameMode.Menu)
         {
-            // Light a random tile.
+            
             yield return FlashTile(Random.Range(0, numTiles));
-            // Wait before flashing the next one.
+           
             yield return new WaitForSeconds(duration);
         }
     }
@@ -148,12 +146,12 @@ public class GameManager : MonoBehaviour
         {
             PlayTone(index);
             currentIndex++;
-            progressIntoLevel = currentIndex; // track how far into pattern
+            progressIntoLevel = currentIndex; 
             UpdateMovesLeftText();
 
             if (currentIndex == levelTiles.Count)
             {
-                levelTiles.Add(Random.Range(0, numTiles)); // increase level
+                levelTiles.Add(Random.Range(0, numTiles)); 
                 currentLevel++;
                 UpdateLevelText();
                 StartCoroutine(PlaySequence());
@@ -162,7 +160,7 @@ public class GameManager : MonoBehaviour
         else
         {
             SaveSimonResult();
-            // Game over
+           
             Debug.Log($"You got to level {levelTiles.Count - 2}");
             gameMode = GameMode.Menu;
             playButton.SetActive(true);
@@ -178,14 +176,14 @@ public class GameManager : MonoBehaviour
     {
         if (gameMode == GameMode.Playing || gameMode == GameMode.Listening)
         {
-            hintsUsed++; // count hint usage
+            hintsUsed++; 
             StartCoroutine(PlaySequence());
         }
     }
 
     private void PlayErrorTone()
     {
-        // Play a longer low pitched sound.
+        
         audioSource.pitch = 0.5f;
         double currentTime = AudioSettings.dspTime;
         audioSource.PlayScheduled(currentTime);
@@ -194,13 +192,13 @@ public class GameManager : MonoBehaviour
 
     private void PlayTone(int index)
     {
-        // Adjust pitch to create unique sound for each tile.
+        
         if (numTiles > 1)
         {
             audioSource.pitch = Mathf.Lerp(0.5f, 2.0f, index / (numTiles - 1f));
         }
 
-        // Schedule the tone to play.
+        
         double currentTime = AudioSettings.dspTime;
         audioSource.PlayScheduled(currentTime);
         audioSource.SetScheduledEndTime(currentTime + duration);
@@ -208,27 +206,25 @@ public class GameManager : MonoBehaviour
 
     public void Play()
     {
-        // Hide the play button.
+        
         playButton.SetActive(false);
         scoreboardButton.SetActive(false);
         replayButton.gameObject.SetActive(false);
 
-        // Stop the lights flashing from the menu.
         StopCoroutine(MenuTileAnimation());
 
         currentLevel = 1;
         UpdateLevelText();
 
-        // Clear out the old level data, start with three lights.
-        levelTiles = new() {
-      Random.Range(0, numTiles),
-      Random.Range(0, numTiles),
-      Random.Range(0, numTiles)
-    };
+        // reset state for a fresh run
+        hintsUsed = 0;
+        progressIntoLevel = 0;
+        currentIndex = 0;
 
-        // Play the game light sequence.
+        // start with a single-tile sequence instead of three
+        levelTiles = new List<int> { Random.Range(0, numTiles) };
+
         StartCoroutine(PlaySequence());
-
     }
 
     public void BackToMainMenu()
@@ -239,7 +235,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator PlaySequence()
     {
         gameMode = GameMode.Listening;
-        replayButton.gameObject.SetActive(false); // disable while showing sequence
+        replayButton.gameObject.SetActive(false); 
 
         yield return new WaitForSeconds(2f);
 
@@ -253,7 +249,7 @@ public class GameManager : MonoBehaviour
         currentIndex = 0;
         gameMode = GameMode.Playing;
 
-        replayButton.gameObject.SetActive(true); // enable after sequence
+        replayButton.gameObject.SetActive(true);
         UpdateMovesLeftText();
     }
     void SaveSimonResult()
