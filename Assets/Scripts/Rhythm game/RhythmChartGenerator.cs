@@ -63,3 +63,8 @@ public class RhythmChartGenerator : MonoBehaviour
         Debug.Log("Chart generated! Notes are ready, music not played.");
     }
 }
+
+//How to use the charter: Go into the game and whenever youre ready, press P to start the music and charting. Use ASDF to place down the notes.
+//The script will look for a JSON file in the persistent data path with the name specified in the fileName variable (default is "song1.json").
+//Make sure to create this JSON file with the appropriate structure to define your rhythm chart.
+//Then in RhythmChartGenerator in hierarchy, press "Generate Notes From Chart" to place down the notes that you've charted.

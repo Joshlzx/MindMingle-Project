@@ -51,37 +51,36 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        
         numTiles = numRows * numCols;
         tile = new Tile[numTiles];
 
-       
+        
+        Color[] presetColors = new Color[] { Color.red, Color.blue, Color.yellow, Color.green };
+
         for (int row = 0; row < numRows; row++)
         {
             for (int col = 0; col < numCols; col++)
             {
                 int index = (row * numCols) + col;
 
-                
                 tile[index] = Instantiate(tilePrefab, gameArea);
-                tile[index].Init(this, index, Color.HSVToRGB((float)index / numTiles, 0.8f, 0.9f));
 
-               
+                Color colColor = presetColors[col % presetColors.Length];
+
+                tile[index].Init(this, index, colColor);
+
                 float rowStart = (numRows / 2f) - 0.5f;
                 float colStart = (-numCols / 2f) + 0.5f;
                 tile[index].transform.localPosition = new Vector3(colStart + col, rowStart - row, 0f);
             }
         }
 
-        
-        float scale = 4f / numRows; 
+        float scale = 4f / numRows;
         gameArea.localScale = Vector3.one * scale;
 
-        
         gameMode = GameMode.Menu;
         StartCoroutine(MenuTileAnimation());
 
-        
         replayButton.onClick.AddListener(ReplayCurrentPattern);
         replayButton.gameObject.SetActive(false);
 
@@ -216,12 +215,12 @@ public class GameManager : MonoBehaviour
         currentLevel = 1;
         UpdateLevelText();
 
-        // reset state for a fresh run
+    
         hintsUsed = 0;
         progressIntoLevel = 0;
         currentIndex = 0;
 
-        // start with a single-tile sequence instead of three
+        
         levelTiles = new List<int> { Random.Range(0, numTiles) };
 
         StartCoroutine(PlaySequence());

@@ -68,7 +68,7 @@ public class PathTrailAttemptHistoryManager : MonoBehaviour
 
         foreach (var p in ProfileManager.Instance.profiles)
         {
-            // Skip profiles that have no attempts for this game
+            
             if (p.pathTrailAttempts == null || p.pathTrailAttempts.Count == 0)
                 continue;
 
@@ -81,10 +81,10 @@ public class PathTrailAttemptHistoryManager : MonoBehaviour
             bestAttempts.Add((p.playerName, best));
         }
 
-        // If no players with attempts, nothing to show
+        
         if (bestAttempts.Count == 0) return;
 
-        // Sort: valid grades first by grade → errors → time, null/empty grades last
+       
         bestAttempts.Sort((x, y) =>
         {
             bool xNull = x.bestAttempt == null || string.IsNullOrEmpty(x.bestAttempt.grade);
@@ -103,7 +103,7 @@ public class PathTrailAttemptHistoryManager : MonoBehaviour
 
             if (entryData.bestAttempt == null)
             {
-                // This branch should not occur because we filtered earlier, but keep fallback
+            
                 entry.GetComponent<TextMeshProUGUI>().text =
                     $"<b><color=#000000>{entryData.playerName}</color></b>";
                 continue;
