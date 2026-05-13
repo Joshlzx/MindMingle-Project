@@ -1,0 +1,41 @@
+#include <BleKeyboard.h>
+
+BleKeyboard bleKeyboard("ESP32_Controller_1");
+
+#define BUTTON_1 14
+#define BUTTON_2 27
+#define BUTTON_3 26
+#define BUTTON_4 25
+
+void setup() {
+  pinMode(BUTTON_1, INPUT_PULLUP);
+  pinMode(BUTTON_2, INPUT_PULLUP);
+  pinMode(BUTTON_3, INPUT_PULLUP);
+  pinMode(BUTTON_4, INPUT_PULLUP);
+
+  bleKeyboard.begin();
+}
+
+void loop() {
+  if (bleKeyboard.isConnected()) {
+
+    if (digitalRead(BUTTON_1) == LOW) {
+      bleKeyboard.write('z');
+      delay(200);
+    }
+    if (digitalRead(BUTTON_2) == LOW) {
+      bleKeyboard.write('x');
+      delay(200);
+    }
+    if (digitalRead(BUTTON_3) == LOW) {
+      bleKeyboard.write('c');
+      delay(200);
+    }
+    if (digitalRead(BUTTON_4) == LOW) {
+      bleKeyboard.write('v');
+      delay(200);
+    }
+  }
+}
+
+//Select COM5
